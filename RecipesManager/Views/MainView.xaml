@@ -1,0 +1,55 @@
+﻿<fw:AcrylicWindow x:Class="RecipesManager.Views.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RecipesManager"
+        xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+        xmlns:viewmodels="clr-namespace:RecipesManager.ViewModels"
+        xmlns:views="clr-namespace:RecipesManager.Views"
+        mc:Ignorable="d"
+        Icon="../chef.ico"
+        Title="Recipes Manager" 
+        Height="720" 
+        Width="1280"
+        WindowStartupLocation="CenterScreen"
+    >
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type viewmodels:MenuViewModel}">
+            <views:MenuView />
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewmodels:CategoryViewModel}">
+            <views:CategoriesView />
+        </DataTemplate>
+    </Window.Resources>
+    
+    <Grid Background="#70FFFFFF">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="5">
+            <Menu
+                DockPanel.Dock="Top" FontSize="14"
+            >
+                <MenuItem Header="_File" Margin="0, 0, 10, 0">
+                    <MenuItem Header="_Quit" Click="btnQuit_Click" />
+                </MenuItem>
+                <MenuItem Header="_View" Margin="0, 0, 10, 0">
+                    <MenuItem Header="_Menu" Command="{Binding MenuCommand}" />
+                    <MenuItem Header="_Categories" Command="{Binding CategoriesCommand}" />
+                </MenuItem>
+                <MenuItem Header="_Tools" Margin="0, 0, 10, 0">
+                    <MenuItem Header="_Import JSON data" />
+                    <MenuItem Header="_Export data as JSON" />
+                </MenuItem>
+                <MenuItem Header="_Help">
+                    <MenuItem Header="_About" />
+                </MenuItem>
+            </Menu>
+        </DockPanel>
+        <ContentControl Grid.Row="1" Content="{Binding SelectedViewModel}" />        
+    </Grid>
+</fw:AcrylicWindow>

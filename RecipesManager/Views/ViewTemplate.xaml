@@ -1,0 +1,43 @@
+﻿<fw:AcrylicWindow x:Class="RecipesManager.ViewTemplate"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RecipesManager"
+        xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+        mc:Ignorable="d"
+        Icon="../chef.ico"
+        Title="View template" 
+        Height="720" 
+        Width="1280"
+        WindowStartupLocation="CenterScreen"
+        Loaded="ViewTemplate_Loaded"
+        Closing="ViewTemplate_Closing"
+    >
+    <Grid Background="#70FFFFFF">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />            
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />            
+        </Grid.ColumnDefinitions>
+
+        <DockPanel Grid.Column="0" Grid.Row="0">
+            <Menu
+                DockPanel.Dock="Top" FontSize="14"
+            >
+                <MenuItem Header="_File" Margin="0, 0, 10, 0">
+                    <MenuItem Header="_Quit" Click="btnQuit_Click" />
+                </MenuItem>
+                <MenuItem Header="_Tools" Margin="0, 0, 10, 0">
+                    <MenuItem Header="_Import JSON data" />
+                    <MenuItem Header="_Export data as JSON" />
+                </MenuItem>
+                <MenuItem Header="_Help">
+                    <MenuItem Header="_About" />
+                </MenuItem>
+            </Menu>
+        </DockPanel>
+    </Grid>
+</fw:AcrylicWindow>
