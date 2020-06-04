@@ -14,43 +14,91 @@
                     ItemsSource="{Binding Items, Mode=TwoWay}"  
                     SelectedItem="{Binding SelectedRecipe}"
                     SelectionMode="Single"
+                    HorizontalContentAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Width="1280"
                 >
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter 
+                                Property="HorizontalContentAlignment"
+                                Value="Stretch"
+                                ></Setter>
+                            <Setter Property="VerticalContentAlignment" Value="Stretch"></Setter>
+                         </Style>
+                    </ListView.ItemContainerStyle>
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn 
-                                Header="ID" 
-                                DisplayMemberBinding="{Binding Id}"  
-                                Width="100"/>
-                            <GridViewColumn 
-                                Header="Recipe name" 
-                                DisplayMemberBinding="{Binding Name}"  
-                                Width="150" 
-                            />
-                            <GridViewColumn 
-                                Header="Category name" 
-                                DisplayMemberBinding="{Binding Category}"  
-                                Width="150" 
-                            />
-                            <GridViewColumn 
-                                Header="Preparation time" 
-                                DisplayMemberBinding="{Binding PreparationTime}"  
-                                Width="150" 
-                            />
-                            <GridViewColumn 
-                                Header="Serves" 
-                                DisplayMemberBinding="{Binding Serves}"  
-                                Width="150" 
-                            />
-                            <GridViewColumn 
-                                Header="Kcal Per Serve" 
-                                DisplayMemberBinding="{Binding KcalPerServe}"  
-                                Width="150" 
-                            />
-                            <GridViewColumn 
-                                Header="Method" 
-                                DisplayMemberBinding="{Binding Method}"  
-                                Width="300"
-                            />
+                            <GridViewColumn Header="ID" Width="100">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock 
+                                            Text="{Binding Id}"
+                                            HorizontalAlignment="Center"
+                                            />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Name" Width="100">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock 
+                                            Text="{Binding Name}"
+                                            HorizontalAlignment="Center"
+                                            />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Category" Width="100">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock 
+                                            Text="{Binding Category}"
+                                            HorizontalAlignment="Center"
+                                            />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Preparation time" Width="120">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock 
+                                            Text="{Binding PreparationTime}"
+                                            HorizontalAlignment="Center"
+                                            />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Serves" Width="100">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock 
+                                            Text="{Binding Serves}"
+                                            HorizontalAlignment="Center"
+                                            />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Kcal Per Serve" Width="100">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock 
+                                            Text="{Binding KcalPerServe}"
+                                            HorizontalAlignment="Center"
+                                            />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Method" Width="400">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock 
+                                            Text="{Binding Method}"
+                                            HorizontalAlignment="Center"
+                                            />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
                         </GridView>
                     </ListView.View>
                 </ListView>

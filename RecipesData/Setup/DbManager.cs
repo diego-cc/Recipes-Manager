@@ -88,7 +88,7 @@ namespace RecipesData.Setup
                             return _recipesContext.Ingredients.ToArray();
 
                         case "Recipe":
-                            return _recipesContext.Recipes.ToArray();
+                            return _recipesContext.Recipes.Include(m => m.Category).ToArray();
 
                         case "IngredientQuantity":
                             return _recipesContext.IngredientQuantities.ToArray();

@@ -121,6 +121,13 @@ namespace RecipesManager.Models
             }
         }
 
+        #region ToString
+        public override string ToString()
+        {
+            return Name;
+        }
+        #endregion
+
         #region Equals
 
         public override bool Equals(object obj)
