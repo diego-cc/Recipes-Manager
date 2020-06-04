@@ -46,7 +46,7 @@ namespace RecipesManager.ViewModels
 
         public void OpenCategories(object obj)
         {
-            SelectedViewModel = new CategoryViewModel(this._dbManager);
+            SelectedViewModel = new CategoriesViewModel(this._dbManager);
         }
 
         #region INotifyPropertyChanged

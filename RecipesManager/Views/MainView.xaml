@@ -19,7 +19,7 @@
             <views:MenuView />
         </DataTemplate>
 
-        <DataTemplate DataType="{x:Type viewmodels:CategoryViewModel}">
+        <DataTemplate DataType="{x:Type viewmodels:CategoriesViewModel}">
             <views:CategoriesView />
         </DataTemplate>
     </Window.Resources>

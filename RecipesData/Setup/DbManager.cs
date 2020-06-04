@@ -133,19 +133,19 @@ namespace RecipesData.Setup
                     switch (item)
                     {
                         case Category c:
-                            _recipesContext.Categories.Remove(c);
+                            _recipesContext.Entry(c).State = EntityState.Deleted;
                             break;
 
                         case Ingredient i:
-                            _recipesContext.Ingredients.Remove(i);
+                            _recipesContext.Entry(i).State = EntityState.Deleted;
                             break;
 
                         case Recipe r:
-                            _recipesContext.Recipes.Remove(r);
+                            _recipesContext.Entry(r).State = EntityState.Deleted;
                             break;
 
                         case IngredientQuantity iq:
-                            _recipesContext.IngredientQuantities.Remove(iq);
+                            _recipesContext.Entry(iq).State = EntityState.Deleted;
                             break;
 
                         default:

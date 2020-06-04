@@ -2,7 +2,7 @@
 
 namespace RecipesManager.ViewModels
 {
-    public class TestViewModel : IViewModel
+    public class IngredientsViewModel : IViewIngredientsViewModel
     {
     }
 }

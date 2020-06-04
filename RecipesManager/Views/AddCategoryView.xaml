@@ -1,0 +1,93 @@
+﻿<fw:AcrylicWindow x:Class="RecipesManager.Views.AddCategoryView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+        xmlns:local="clr-namespace:RecipesManager.Views"
+        xmlns:validation="clr-namespace:RecipesManager.Helpers.Validation"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="Add Category" Height="600" Width="800">
+    <Grid Background="#70FFFFFF">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="150" />
+            <ColumnDefinition Width="50" />
+            <ColumnDefinition Width="150" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock 
+            Text="Add a new category"
+            Grid.Row="0"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            FontSize="24"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            FontFamily="Segoe UI Black"
+            />
+
+        <Label 
+            Content="Name:"
+            Grid.Column="1"
+            Grid.Row="2"
+            FontSize="20"
+            FontWeight="DemiBold"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center"
+            Foreground="GhostWhite"
+            />
+
+        <TextBox
+            Grid.Row="2"
+            Grid.Column="3"
+            FontSize="16"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Center"
+            VerticalAlignment="Stretch"
+            VerticalContentAlignment="Center"
+            >
+            <TextBox.Text>
+                <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <validation:CategoryNameRule />
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
+
+        <Button
+            Content="Submit"
+            FontSize="16"
+            Style="{StaticResource ButtonAccentRevealStyle}"
+            Command="{Binding AddCategoryCommand}"
+            Background="DarkGreen"
+            Grid.Row="4"
+            MaxWidth="150"
+            Grid.Column="3"
+            />
+
+        <Button
+            x:Name="btnCancel"
+            Content="Cancel"
+            FontSize="16"
+            Style="{StaticResource ButtonAccentRevealStyle}"
+            Click="btnCancel_Click"
+            Background="Crimson"
+            Grid.Row="4"
+            MaxWidth="150"
+            Grid.Column="1"
+            />
+    </Grid>
+</fw:AcrylicWindow>
