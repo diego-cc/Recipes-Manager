@@ -20,9 +20,11 @@ namespace RecipesManager.ViewModels
             this._dbManager = dbManager;
             this._mainViewModel = (MainViewModel)mainViewModel;
 
-            CategoriesCommand = new NavigateCommand(this._mainViewModel.OpenCategories);
+            CategoriesCommand = new RelayCommand(this._mainViewModel.OpenCategories);
+            IngredientsCommand = new RelayCommand(this._mainViewModel.OpenIngredients);
         }
 
         public ICommand CategoriesCommand { get; private set; }
+        public ICommand IngredientsCommand { get; private set; }
     }
 }

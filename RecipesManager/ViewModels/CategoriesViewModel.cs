@@ -45,9 +45,9 @@ namespace RecipesManager.ViewModels
                 })
             );
 
-            AddCategoryCommand = new NavigateCommand(OpenAddCategory);
-            DeleteCategoryCommand = new NavigateCommand(DeleteCategory);
-            UpdateCategoryCommand = new NavigateCommand(UpdateCategory);
+            AddCategoryCommand = new RelayCommand(OpenAddCategory);
+            DeleteCategoryCommand = new RelayCommand(DeleteCategory);
+            UpdateCategoryCommand = new RelayCommand(UpdateCategory);
         }
 
         private void OpenAddCategory(object obj)
@@ -74,7 +74,7 @@ namespace RecipesManager.ViewModels
 
         private void UpdateCategory(object obj)
         {
-            if (SelectedCategory != null)
+            if (SelectedCategory != null && !string.IsNullOrEmpty(SelectedCategory.Name) && !string.IsNullOrWhiteSpace(SelectedCategory.Name))
             {
                 if (this.dbManager.EditItem(new RecipesData.Models.Category { Id = SelectedCategory.Id, Name = SelectedCategory.Name }))
                 {

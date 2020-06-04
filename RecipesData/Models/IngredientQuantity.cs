@@ -7,7 +7,7 @@ namespace RecipesData.Models
     public class IngredientQuantity
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         
         [Column(Order = 1)]

@@ -33,7 +33,7 @@ namespace RecipesManager.ViewModels
             _dbManager = dbManager;
             this.categories = categories;
 
-            AddCategoryCommand = new NavigateCommand(AddCategory);
+            AddCategoryCommand = new RelayCommand(AddCategory);
         }
 
         public ICommand AddCategoryCommand { get; set; }

@@ -3,18 +3,18 @@ using System.Windows.Input;
 
 namespace RecipesManager.Commands
 {
-    public class NavigateCommand : ICommand
+    public class RelayCommand : ICommand
     {
         private Predicate<object> _canExecute;
         private Action<object> _method;
         public event EventHandler CanExecuteChanged;
 
-        public NavigateCommand(Action<object> method)
+        public RelayCommand(Action<object> method)
             : this(method, null)
         {
         }
 
-        public NavigateCommand(Action<object> method, Predicate<object> canExecute)
+        public RelayCommand(Action<object> method, Predicate<object> canExecute)
         {
             _method = method;
             _canExecute = canExecute;

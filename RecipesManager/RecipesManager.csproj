@@ -91,20 +91,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Commands\NavigateCommand.cs" />
-    <Compile Include="Commands\SubmitCommand.cs" />
+    <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Helpers\Validation\CategoryNameRule.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Ingredient.cs" />
     <Compile Include="Models\IngredientQuantity.cs" />
     <Compile Include="Models\Recipe.cs" />
     <Compile Include="ViewModels\AddCategoryViewModel.cs" />
+    <Compile Include="ViewModels\AddIngredientViewModel.cs" />
     <Compile Include="ViewModels\CategoriesViewModel.cs" />
     <Compile Include="ViewModels\IngredientsViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />
     <Compile Include="ViewModels\Services\INavigatable.cs" />
     <Compile Include="ViewModels\Services\IViewAddCategoryViewModel.cs" />
+    <Compile Include="ViewModels\Services\IViewAddIngredientViewModel.cs" />
     <Compile Include="ViewModels\Services\IViewCategoriesViewModel.cs" />
     <Compile Include="ViewModels\Services\IViewIngredientsViewModel.cs" />
     <Compile Include="ViewModels\Services\IViewMainViewModel.cs" />
@@ -112,6 +113,9 @@
     <Compile Include="ViewModels\Services\IViewModel.cs" />
     <Compile Include="Views\AddCategoryView.xaml.cs">
       <DependentUpon>AddCategoryView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AddIngredientView.xaml.cs">
+      <DependentUpon>AddIngredientView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CategoriesView.xaml.cs">
       <DependentUpon>CategoriesView.xaml</DependentUpon>
@@ -129,6 +133,10 @@
       <DependentUpon>ViewTemplate.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\AddCategoryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddIngredientView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

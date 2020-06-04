@@ -22,6 +22,10 @@
         <DataTemplate DataType="{x:Type viewmodels:CategoriesViewModel}">
             <views:CategoriesView />
         </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewmodels:IngredientsViewModel}">
+            <views:IngredientsView />
+        </DataTemplate>
     </Window.Resources>
     
     <Grid Background="#70FFFFFF">
@@ -40,6 +44,7 @@
                 <MenuItem Header="_View" Margin="0, 0, 10, 0">
                     <MenuItem Header="_Menu" Command="{Binding MenuCommand}" />
                     <MenuItem Header="_Categories" Command="{Binding CategoriesCommand}" />
+                    <MenuItem Header="_Ingredients" Command="{Binding IngredientsCommand}" />
                 </MenuItem>
                 <MenuItem Header="_Tools" Margin="0, 0, 10, 0">
                     <MenuItem Header="_Import JSON data" />

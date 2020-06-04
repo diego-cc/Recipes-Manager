@@ -5,8 +5,132 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:RecipesManager.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="720" d:DesignWidth="1280">
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="150" />
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <ListView 
+            Grid.Column="0"
+            Grid.ColumnSpan="4"
+            Grid.Row="7" 
+            ItemsSource="{Binding Items, Mode=TwoWay}"  
+            SelectedItem="{Binding SelectedIngredient}"
+            SelectionMode="Single"
+            >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn 
+                        Header="ID" 
+                        DisplayMemberBinding="{Binding Id}"  
+                        Width="100"/>
+                    <GridViewColumn 
+                        Header="Ingredient name" 
+                        DisplayMemberBinding="{Binding Name}"  
+                        Width="150" 
+                        />
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <TextBox 
+            Grid.Row="1" 
+            Grid.Column="2"             
+            HorizontalAlignment="Stretch" 
+            VerticalAlignment="Center"
+            Height="25"
+            IsEnabled="False"
+            Text="{Binding SelectedIngredient.Id, Mode=TwoWay}" 
+            />
+        <TextBox 
+            Grid.Row="3" 
+            Grid.Column="2"
+            HorizontalAlignment="Stretch" 
+            VerticalAlignment="Center"
+            Height="25"
+            Text="{Binding SelectedIngredient.Name, Mode=TwoWay}" 
+            />
+
+        <Label 
+            Content="ID"
+            Grid.Row="1" 
+            Grid.Column="1"
+            FontSize="16"
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Center"
+            Name="lblCategoryId" 
+            Foreground="Aqua"
+            />
+        <Label 
+            Content="Ingredient name" 
+            Grid.Column="1"
+            Grid.Row="3" 
+            FontSize="16"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center" 
+            Name="lblCategoryName" 
+            Foreground="Aqua"
+            />
+
+        <Button 
+            Content="Delete" 
+            Grid.Row="5" 
+            Grid.Column="2"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Stretch" 
+            Margin="-100, 0, 0, 0"
+            x:Name="btnDelete"   
+            Width="150"  
+            FontSize="16"
+            Background="Crimson"
+            Style="{StaticResource ButtonAccentRevealStyle}"
+            Command="{Binding Path=DeleteIngredientCommand}"  
+            />
+
+        <Button 
+            Content="Add" 
+            Grid.Row="5" 
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Stretch" 
+            Margin="150, 0, 0, 0"
+            x:Name="btnAdd"   
+            Width="150"  
+            FontSize="16"
+            Background="CadetBlue"
+            Style="{StaticResource ButtonAccentRevealStyle}"
+            Command="{Binding AddIngredientCommand}"  
+            />
+
+        <Button 
+            Content="Update" 
+            Grid.Row="5" 
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Stretch" 
+            x:Name="btnUpdate"   
+            Width="150"  
+            FontSize="16"
+            Background="BlueViolet"
+            Style="{StaticResource ButtonAccentRevealStyle}"
+            Command="{Binding Path=UpdateIngredientCommand}"  
+            />
     </Grid>
 </UserControl>

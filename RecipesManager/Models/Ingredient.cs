@@ -28,7 +28,7 @@ namespace RecipesManager.Models
             get => name;
             set
             {
-                if (!name.Equals(value))
+                if (name != value)
                 {
                     name = value;
                     OnPropertyChanged();
@@ -36,11 +36,18 @@ namespace RecipesManager.Models
             }
         }
 
+        #region ToString
+        public override string ToString()
+        {
+            return Name;
+        }
+        #endregion
+
         #region Equals
 
         public override bool Equals(object obj)
         {
-            return this.Id == ((Ingredient)obj).Id;
+            return Equals(obj as Ingredient);
         }
 
         public bool Equals(Ingredient other)
