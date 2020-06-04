@@ -62,7 +62,7 @@
 
         <Button 
             x:Name="btnRecipes"
-            Click="btnRecipes_Click"
+            Command="{Binding RecipesCommand}"
             Content="Browse recipes" 
             Grid.Column="2" 
             Grid.Row="6" 

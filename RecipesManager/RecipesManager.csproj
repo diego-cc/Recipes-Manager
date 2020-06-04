@@ -103,6 +103,7 @@
     <Compile Include="ViewModels\IngredientsViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />
+    <Compile Include="ViewModels\RecipesViewModel.cs" />
     <Compile Include="ViewModels\Services\INavigatable.cs" />
     <Compile Include="ViewModels\Services\IViewAddCategoryViewModel.cs" />
     <Compile Include="ViewModels\Services\IViewAddIngredientViewModel.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="ViewModels\Services\IViewMainViewModel.cs" />
     <Compile Include="ViewModels\Services\IViewMenuViewModel.cs" />
     <Compile Include="ViewModels\Services\IViewModel.cs" />
+    <Compile Include="ViewModels\Services\IViewRecipesViewModel.cs" />
     <Compile Include="Views\AddCategoryView.xaml.cs">
       <DependentUpon>AddCategoryView.xaml</DependentUpon>
     </Compile>

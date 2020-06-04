@@ -3,7 +3,7 @@ using System.Data.Entity;
 
 namespace RecipesData.Context
 {
-    public class RecipesContext : DbContext
+    public class RecipesContext : DbContext, IRecipesContext
     {
         public DbSet<Ingredient> Ingredients { get; set; }
         public DbSet<Category> Categories { get; set; }

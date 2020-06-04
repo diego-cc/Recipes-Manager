@@ -22,9 +22,11 @@ namespace RecipesManager.ViewModels
 
             CategoriesCommand = new RelayCommand(this._mainViewModel.OpenCategories);
             IngredientsCommand = new RelayCommand(this._mainViewModel.OpenIngredients);
+            RecipesCommand = new RelayCommand(this._mainViewModel.OpenRecipes);
         }
 
         public ICommand CategoriesCommand { get; private set; }
         public ICommand IngredientsCommand { get; private set; }
+        public ICommand RecipesCommand { get; private set; }
     }
 }
