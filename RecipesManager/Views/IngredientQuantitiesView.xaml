@@ -377,7 +377,7 @@
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
                         FontSize="16"
-                        Text="{Binding NewIngredientQuantity.Amount, Mode=TwoWay}"
+                        Text="{Binding NewIngredientQuantity.Amount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         />
                     
                     <Label 

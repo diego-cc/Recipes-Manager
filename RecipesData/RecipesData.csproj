@@ -80,6 +80,11 @@
     <Compile Include="Context\IRecipesContext.cs" />
     <Compile Include="Context\RecipesContext.cs" />
     <Compile Include="Context\RecipesTestContext.cs" />
+    <Compile Include="Migrations\202006051406027_Initial.cs" />
+    <Compile Include="Migrations\202006051406027_Initial.designer.cs">
+      <DependentUpon>202006051406027_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Ingredient.cs" />
     <Compile Include="Models\IngredientQuantity.cs" />
@@ -93,7 +98,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Migrations\" />
+    <EmbeddedResource Include="Migrations\202006051406027_Initial.resx">
+      <DependentUpon>202006051406027_Initial.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

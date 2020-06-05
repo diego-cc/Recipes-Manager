@@ -190,10 +190,8 @@ namespace RecipesManager.ViewModels
                     }
 
                     // clear fields
-                    NewIngredientQuantity = new RecipesManager.Models.IngredientQuantity
-                    {
-                        Ingredient = new RecipesManager.Models.Ingredient(),                Recipe = new RecipesManager.Models.Recipe()
-                    };
+                    NewIngredientQuantity.Quantity = "";
+                    NewIngredientQuantity.Amount = 0;
                 }
             }
             else
@@ -267,11 +265,8 @@ namespace RecipesManager.ViewModels
         private void ClearIngredientQuantity(object obj)
         {
             // clear fields
-            NewIngredientQuantity = new RecipesManager.Models.IngredientQuantity
-            {
-                Ingredient = new RecipesManager.Models.Ingredient(),
-                Recipe = new RecipesManager.Models.Recipe()
-            };
+            NewIngredientQuantity.Quantity = "";
+            NewIngredientQuantity.Amount = 0;
         }
 
         public ICommand AddIngredientQuantityCommand { get; set; }
