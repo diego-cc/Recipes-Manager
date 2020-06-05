@@ -11,11 +11,11 @@ namespace RecipesData.Models
         public int Id { get; set; }
         
         [Column(Order = 1)]
-        [Index("IX_IngredientId", 1, IsUnique = true)]
+        [Index("IX_IngredientId", 1)]
         public int IngredientId { get; set; }
         
         [Column(Order = 2)]
-        [Index("IX_RecipeId", 2, IsUnique = true)]
+        [Index("IX_RecipeId", 2)]
         public int RecipeId { get; set; }
 
         public string Quantity { get; set; } = "";

@@ -47,8 +47,8 @@
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Ingredients", t => t.IngredientId, cascadeDelete: true)
                 .ForeignKey("dbo.Recipes", t => t.RecipeId, cascadeDelete: true)
-                .Index(t => t.IngredientId, unique: true)
-                .Index(t => t.RecipeId, unique: true);
+                .Index(t => t.IngredientId)
+                .Index(t => t.RecipeId);
             
             CreateTable(
                 "dbo.Ingredients",

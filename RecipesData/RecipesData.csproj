@@ -84,6 +84,10 @@
     <Compile Include="Migrations\202006051406027_Initial.designer.cs">
       <DependentUpon>202006051406027_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202006051819205_RemovedUnique.cs" />
+    <Compile Include="Migrations\202006051819205_RemovedUnique.designer.cs">
+      <DependentUpon>202006051819205_RemovedUnique.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Ingredient.cs" />
@@ -100,6 +104,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202006051406027_Initial.resx">
       <DependentUpon>202006051406027_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006051819205_RemovedUnique.resx">
+      <DependentUpon>202006051819205_RemovedUnique.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

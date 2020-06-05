@@ -3,6 +3,8 @@ using RecipesData.Setup;
 using RecipesManager.Commands;
 using RecipesManager.ViewModels.Services;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -116,7 +118,7 @@ namespace RecipesManager.ViewModels
                         Ingredient = Ingredients.FirstOrDefault(i => i.Id == iqEntity.IngredientId)
                     };
                 })
-            );            
+            );
 
             AddIngredientQuantityCommand = new RelayCommand(AddIngredientQuantity);
             DeleteIngredientQuantityCommand = new RelayCommand(DeleteIngredientQuantity);
@@ -137,23 +139,28 @@ namespace RecipesManager.ViewModels
                 return;
             }
 
-            // not quite working
-            if (!string.IsNullOrWhiteSpace(NewIngredientQuantity.Amount.ToString()) && !decimal.TryParse(NewIngredientQuantity.Amount.ToString(), out _))
+            // this doesn't work very well, because if the user enters an invalid input after deleting a valid one, the old value (that is not in the textbox) will get added instead
+            bool canParse = decimal.TryParse(NewIngredientQuantity.Amount.ToString(), out decimal amount);
+
+            if (string.IsNullOrWhiteSpace(NewIngredientQuantity.Amount.ToString()) || !canParse)
             {
                 // invalid amount
                 MessageBox.Show("Please enter a valid amount (number with optional decimal places)", "Invalid amount", MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK);
 
                 return;
             }
-            
+
             // add new ingredient quantity
-            if (this.dbManager.AddItem(new RecipesData.Models.IngredientQuantity
+
+            var iqToBeAdded = new RecipesData.Models.IngredientQuantity
             {
                 Quantity = NewIngredientQuantity.Quantity,
-                Amount = NewIngredientQuantity.Amount,
+                Amount = amount,
                 RecipeId = NewIngredientQuantity.Recipe.Id,
                 IngredientId = NewIngredientQuantity.Ingredient.Id
-            }))
+            };
+
+            if (this.dbManager.AddItem(iqToBeAdded))
             {
                 if (MessageBox.Show("Ingredient quantity successfully added!", "Ingredient quantity added", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK) == MessageBoxResult.OK)
                 {
@@ -219,12 +226,20 @@ namespace RecipesManager.ViewModels
 
         private void UpdateIngredientQuantity(object obj)
         {
+            // basic check
+            if (!decimal.TryParse(SelectedIngredientQuantity.Amount.ToString(), out decimal amount))
+            {
+                MessageBox.Show("Please enter a valid amount", "Invalid amount", MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK);
+
+                return;
+            }
+
             // update ingredient quantity
             if (this.dbManager.EditItem(new RecipesData.Models.IngredientQuantity
             {
                 Id = SelectedIngredientQuantity.Id,
                 Quantity = SelectedIngredientQuantity.Quantity,
-                Amount = SelectedIngredientQuantity.Amount,
+                Amount = amount,
                 RecipeId = SelectedIngredientQuantity.Recipe.Id,
                 IngredientId = SelectedIngredientQuantity.Ingredient.Id
             }))
@@ -269,11 +284,13 @@ namespace RecipesManager.ViewModels
             NewIngredientQuantity.Amount = 0;
         }
 
+        #region Commands
         public ICommand AddIngredientQuantityCommand { get; set; }
         public ICommand DeleteIngredientQuantityCommand { get; set; }
         public ICommand UpdateIngredientQuantityCommand { get; set; }
         public ICommand RestoreIngredientQuantityCommand { get; set; }
         public ICommand ClearIngredientQuantityCommand { get; set; }
+        #endregion
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;

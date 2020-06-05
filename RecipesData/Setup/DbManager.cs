@@ -39,7 +39,8 @@ namespace RecipesData.Setup
                             break;
 
                         case IngredientQuantity iq:
-                            _recipesContext.IngredientQuantities.Add(iq);
+                            _recipesContext.Entry(iq).State = EntityState.Added;
+                            // _recipesContext.IngredientQuantities.Add(iq);
                             break;
 
                         default:

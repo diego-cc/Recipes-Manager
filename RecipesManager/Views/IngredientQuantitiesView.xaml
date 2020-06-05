@@ -370,6 +370,7 @@
                         />
 
                     <TextBox 
+                        x:Name="txtNewAmount"
                         Grid.Row="7" 
                         Grid.Column="5"
                         HorizontalAlignment="Stretch" 
@@ -379,7 +380,7 @@
                         FontSize="16"
                         Text="{Binding NewIngredientQuantity.Amount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         />
-                    
+
                     <Label 
                         Content="Recipe" 
                         Grid.Column="4"
