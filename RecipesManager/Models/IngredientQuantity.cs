@@ -10,8 +10,8 @@ namespace RecipesManager.Models
         private int id;
         private int ingredientId;
         private int recipeId;
-        private string quantity;
-        private decimal? amount;
+        private string quantity = "";
+        private decimal? amount = 0;
 
         private Ingredient ingredient;
         private Recipe recipe;
@@ -106,6 +106,13 @@ namespace RecipesManager.Models
                 }
             }
         }
+
+        #region ToString
+        public override string ToString()
+        {
+            return $"{Ingredient.Name} in {Recipe.Name}: Amount: {Amount}, Quantity: {Quantity}";
+        }
+        #endregion
 
         #region Equals
 

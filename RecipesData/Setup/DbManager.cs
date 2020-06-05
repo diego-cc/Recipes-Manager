@@ -91,7 +91,11 @@ namespace RecipesData.Setup
                             return _recipesContext.Recipes.Include(m => m.Category).ToArray();
 
                         case "IngredientQuantity":
-                            return _recipesContext.IngredientQuantities.ToArray();
+                            return _recipesContext
+                                        .IngredientQuantities
+                                        .Include(m => m.Ingredient)
+                                        .Include(m => m.Recipe)
+                                        .ToArray();
 
                         default:
                             Console.WriteLine("Could not browse items: invalid object type");

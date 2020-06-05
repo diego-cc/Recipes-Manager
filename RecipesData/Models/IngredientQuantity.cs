@@ -18,9 +18,9 @@ namespace RecipesData.Models
         [Index("IX_RecipeId", 2)]
         public int RecipeId { get; set; }
 
-        public string Quantity { get; set; } = "unspecified";
+        public string Quantity { get; set; } = "";
 
-        public decimal? Amount { get; set; }
+        public decimal? Amount { get; set; } = 0;
 
         [ForeignKey("IngredientId")]
         public virtual Ingredient Ingredient { get; set; }

@@ -16,6 +16,7 @@ namespace RecipesManager.ViewModels
         public ICommand CategoriesCommand { get; set; }
         public ICommand IngredientsCommand { get; set; }
         public ICommand RecipesCommand { get; set; }
+        public ICommand IngredientQuantitiesCommand { get; set; }
 
         public IViewModel SelectedViewModel
         {
@@ -34,6 +35,7 @@ namespace RecipesManager.ViewModels
             CategoriesCommand = new RelayCommand(OpenCategories);
             IngredientsCommand = new RelayCommand(OpenIngredients);
             RecipesCommand = new RelayCommand(OpenRecipes);
+            IngredientQuantitiesCommand = new RelayCommand(OpenIngredientQuantities);
 
             SelectedViewModel = new MenuViewModel(this._dbManager, this);
         }
@@ -61,6 +63,11 @@ namespace RecipesManager.ViewModels
         public void OpenRecipes(object obj)
         {
             SelectedViewModel = new RecipesViewModel(this._dbManager);
+        }
+
+        public void OpenIngredientQuantities(object obj)
+        {
+            SelectedViewModel = new IngredientQuantitiesViewModel(this._dbManager);
         }
 
         #region INotifyPropertyChanged

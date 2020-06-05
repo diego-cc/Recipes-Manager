@@ -113,6 +113,7 @@
             FontSize="16"
             FontWeight="DemiBold"
             Background="DarkOliveGreen"
+            Command="{Binding IngredientQuantitiesCommand}"
             Style="{StaticResource ButtonRevealStyle}" Grid.RowSpan="3"
             />
 

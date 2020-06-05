@@ -42,6 +42,9 @@ namespace RecipesManager
             container.RegisterType<IViewRecipesViewModel, RecipesView>();
             container.RegisterType<IViewRecipesViewModel, RecipesViewModel>();
 
+            container.RegisterType<IViewIngredientQuantitiesViewModel, IngredientQuantitiesView>();
+            container.RegisterType<IViewIngredientQuantitiesViewModel, IngredientQuantitiesViewModel>();
+
             var mainWindow = container.Resolve<MainView>();
 
             mainWindow.Show();
