@@ -104,7 +104,7 @@
                 </ListView>
             </TabItem>
 
-            <TabItem Header="_Controls">
+            <TabItem Header="_Modify">
                 <Grid Background="{x:Static fw:AccentColors.ImmersiveSystemAccentDark1Brush}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="25" />
@@ -126,29 +126,31 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="12*" />
-                        <ColumnDefinition Width="225*"/>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="150"/>
                         <ColumnDefinition Width="150" />
-                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="150" />
                         <ColumnDefinition Width="100" />
                         <ColumnDefinition Width="150" />
-                        <ColumnDefinition Width="200" />
-                        <ColumnDefinition Width="238*" />
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <TextBox 
                         Grid.Row="1" 
-                        Grid.Column="3"             
+                        Grid.Column="2"             
                         HorizontalAlignment="Stretch" 
                         VerticalAlignment="Stretch"
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
                         FontSize="16"
                         IsEnabled="False"
-                        Text="{Binding SelectedRecipe.Id, Mode=TwoWay}" 
+                        Text="{Binding SelectedRecipe.Id}" 
                         />
                     <TextBox 
                         Grid.Row="1" 
-                        Grid.Column="6"
+                        Grid.Column="5"
                         HorizontalAlignment="Stretch" 
                         VerticalAlignment="Stretch"
                         HorizontalContentAlignment="Center"
@@ -157,20 +159,28 @@
                         Text="{Binding SelectedRecipe.Name, Mode=TwoWay}" 
                         />
 
-                    <TextBox 
-                        Grid.Row="3" 
-                        Grid.Column="3"
-                        HorizontalAlignment="Stretch" 
-                        VerticalAlignment="Stretch"
+                    <ComboBox 
+                        Grid.Row="1"
+                        Grid.Column="8"
+                        Width="150"
+                        HorizontalAlignment="Center"
                         HorizontalContentAlignment="Center"
+                        VerticalAlignment="Stretch"
                         VerticalContentAlignment="Center"
                         FontSize="16"
-                        Text="{Binding SelectedRecipe.Category.Name, Mode=TwoWay}" 
-                        />
+                        ItemsSource="{Binding Categories}"
+                        SelectedItem="{Binding SelectedRecipe.Category}"
+                        >
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name, Mode=TwoWay}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
 
                     <TextBox 
                         Grid.Row="3" 
-                        Grid.Column="6"
+                        Grid.Column="2"
                         HorizontalAlignment="Stretch" 
                         VerticalAlignment="Stretch"
                         HorizontalContentAlignment="Center"
@@ -180,8 +190,8 @@
                         />
 
                     <TextBox 
-                        Grid.Row="5" 
-                        Grid.Column="3"
+                        Grid.Row="3" 
+                        Grid.Column="5"
                         HorizontalAlignment="Stretch" 
                         VerticalAlignment="Stretch"
                         HorizontalContentAlignment="Center"
@@ -191,8 +201,8 @@
                         />
 
                     <TextBox 
-                        Grid.Row="5" 
-                        Grid.Column="6"
+                        Grid.Row="3" 
+                        Grid.Column="8"
                         HorizontalAlignment="Stretch" 
                         VerticalAlignment="Stretch"
                         HorizontalContentAlignment="Center"
@@ -202,24 +212,24 @@
                         />
 
                     <TextBox 
-                        Grid.Row="8" 
-                        Grid.Column="2"
-                        Grid.ColumnSpan="5"
+                        Grid.Row="7" 
+                        Grid.Column="3"
+                        Grid.ColumnSpan="4"
                         Grid.RowSpan="6"
                         HorizontalAlignment="Stretch" 
                         VerticalAlignment="Stretch"
                         TextWrapping="Wrap"
                         AcceptsReturn="True"
                         VerticalScrollBarVisibility="Auto"
-                        Padding="10, 10, 0, 0"
                         FontSize="14"
+                        Padding="10, 10, 0, 0"
                         Text="{Binding SelectedRecipe.Method, Mode=TwoWay}" 
                         />
 
                     <Label 
                         Content="ID"
                         Grid.Row="1" 
-                        Grid.Column="2"
+                        Grid.Column="1"
                         FontSize="16"
                         HorizontalAlignment="Center" 
                         VerticalAlignment="Center"
@@ -228,7 +238,7 @@
                         />
                     <Label 
                         Content="Recipe name" 
-                        Grid.Column="5"
+                        Grid.Column="4"
                         Grid.Row="1" 
                         FontSize="16"
                         HorizontalAlignment="Center"
@@ -238,8 +248,8 @@
 
                     <Label 
                         Content="Category name" 
-                        Grid.Column="2"
-                        Grid.Row="3" 
+                        Grid.Column="7"
+                        Grid.Row="1" 
                         FontSize="16"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center" 
@@ -249,7 +259,8 @@
                     <Label 
                         Content="Method" 
                         Grid.Column="4"
-                        Grid.Row="7" 
+                        Grid.ColumnSpan="2"
+                        Grid.Row="5" 
                         FontSize="16"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center" 
@@ -258,7 +269,7 @@
 
                     <Label 
                         Content="Preparation Time" 
-                        Grid.Column="5"
+                        Grid.Column="1"
                         Grid.Row="3" 
                         FontSize="16"
                         HorizontalAlignment="Center"
@@ -268,8 +279,8 @@
 
                     <Label 
                         Content="Serves" 
-                        Grid.Column="2"
-                        Grid.Row="5" 
+                        Grid.Column="4"
+                        Grid.Row="3" 
                         FontSize="16"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center" 
@@ -278,8 +289,8 @@
 
                     <Label 
                         Content="Kcal Per Serve" 
-                        Grid.Column="5"
-                        Grid.Row="5" 
+                        Grid.Column="7"
+                        Grid.Row="3" 
                         FontSize="16"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center" 
@@ -288,9 +299,9 @@
 
                     <Button 
                         Content="Delete" 
-                        Grid.Row="15" 
+                        Grid.Row="14" 
                         Grid.Column="5"
-                        Grid.ColumnSpan="2"
+                        Grid.ColumnSpan="3"
                         HorizontalAlignment="Center" 
                         VerticalAlignment="Stretch" 
                         x:Name="btnDelete"   
@@ -302,26 +313,10 @@
                         />
 
                     <Button 
-                        Content="Add" 
-                        Grid.Row="15" 
-                        Grid.Column="2"
-                        Grid.ColumnSpan="2"
-                        HorizontalAlignment="Center" 
-                        VerticalAlignment="Stretch" 
-                        x:Name="btnAdd"   
-                        Width="150"  
-                        FontSize="16"
-                        Background="CadetBlue"
-                        Style="{StaticResource ButtonAccentRevealStyle}"
-                        Command="{Binding AddRecipeCommand}"  
-                        />
-
-                    <Button 
                         Content="Update" 
-                        Grid.Row="15" 
-                        Grid.Column="3"
-                        Grid.ColumnSpan="3"
-                        Margin="50, 0, 0, 0"
+                        Grid.Row="14" 
+                        Grid.Column="4"
+                        Grid.ColumnSpan="2"
                         HorizontalAlignment="Center" 
                         VerticalAlignment="Stretch" 
                         x:Name="btnUpdate"   
@@ -330,6 +325,239 @@
                         Background="BlueViolet"
                         Style="{StaticResource ButtonAccentRevealStyle}"
                         Command="{Binding Path=UpdateRecipeCommand}" 
+                        />
+
+                    <Button 
+                        Content="Restore" 
+                        Grid.Row="14" 
+                        Grid.Column="2"
+                        Grid.ColumnSpan="3"
+                        HorizontalAlignment="Center" 
+                        VerticalAlignment="Stretch"   
+                        Width="150"  
+                        FontSize="16"
+                        Background="Goldenrod"
+                        Style="{StaticResource ButtonAccentRevealStyle}"
+                        Command="{Binding Path=RestoreRecipeCommand}" 
+                        />
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="_Add">
+                <Grid Background="{x:Static fw:AccentColors.ImmersiveSystemAccentDark1Brush}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBox 
+                        Grid.Row="1" 
+                        Grid.Column="3"
+                        Grid.ColumnSpan="2"
+                        Width="150"
+                        HorizontalAlignment="Center" 
+                        VerticalAlignment="Stretch"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        FontSize="16"
+                        Text="{Binding NewRecipe.Name, Mode=TwoWay}" 
+                        />
+
+                    <ComboBox 
+                        Grid.Row="1"
+                        Grid.Column="6"
+                        Grid.ColumnSpan="2"
+                        Width="150"
+                        HorizontalAlignment="Center"
+                        HorizontalContentAlignment="Center"
+                        VerticalAlignment="Stretch"
+                        VerticalContentAlignment="Center"
+                        FontSize="16"
+                        ItemsSource="{Binding Categories}"
+                        SelectedItem="{Binding NewRecipe.Category, Mode=TwoWay}"
+                        >
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name, Mode=TwoWay}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <!--<TextBox 
+                        Grid.Row="1" 
+                        Grid.Column="6"
+                        Grid.ColumnSpan="2"
+                        Width="150"
+                        HorizontalAlignment="Center" 
+                        VerticalAlignment="Stretch"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        FontSize="16"
+                        Text="{Binding NewRecipe.Category.Name, Mode=TwoWay}" 
+                        />-->
+
+                    <TextBox 
+                        Grid.Row="3" 
+                        Grid.Column="2"
+                        HorizontalAlignment="Stretch" 
+                        VerticalAlignment="Stretch"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        FontSize="16"
+                        Text="{Binding NewRecipe.PreparationTime, Mode=TwoWay}" 
+                        />
+
+                    <TextBox 
+                        Grid.Row="3" 
+                        Grid.Column="5"
+                        HorizontalAlignment="Stretch" 
+                        VerticalAlignment="Stretch"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        FontSize="16"
+                        Text="{Binding NewRecipe.Serves, Mode=TwoWay}"
+                        />
+
+                    <TextBox 
+                        Grid.Row="3" 
+                        Grid.Column="8"
+                        HorizontalAlignment="Stretch" 
+                        VerticalAlignment="Stretch"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        FontSize="16"
+                        Text="{Binding NewRecipe.KcalPerServe, Mode=TwoWay}"
+                        />
+
+                    <TextBox 
+                        Grid.Row="7" 
+                        Grid.Column="3"
+                        Grid.ColumnSpan="4"
+                        Grid.RowSpan="6"
+                        HorizontalAlignment="Stretch" 
+                        VerticalAlignment="Stretch"
+                        TextWrapping="Wrap"
+                        AcceptsReturn="True"
+                        VerticalScrollBarVisibility="Auto"
+                        Padding="10, 10, 0, 0"
+                        FontSize="14"
+                        Text="{Binding NewRecipe.Method, Mode=TwoWay}" 
+                        />
+                    <Label 
+                        Content="Recipe name" 
+                        Grid.Column="2"
+                        Grid.ColumnSpan="2"
+                        Grid.Row="1" 
+                        FontSize="16"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center" 
+                        Foreground="Aqua"
+                        />
+
+                    <Label 
+                        Content="Category" 
+                        Grid.Column="5"
+                        Grid.ColumnSpan="2"
+                        Grid.Row="1" 
+                        FontSize="16"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center" 
+                        Foreground="Aqua"
+                        />
+
+                    <Label 
+                        Content="Method" 
+                        Grid.Column="4"
+                        Grid.ColumnSpan="2"
+                        Grid.Row="5" 
+                        FontSize="16"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center" 
+                        Foreground="Aqua"
+                        />
+
+                    <Label 
+                        Content="Preparation Time" 
+                        Grid.Column="1"
+                        Grid.Row="3" 
+                        FontSize="16"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center" 
+                        Foreground="Aqua"
+                        />
+
+                    <Label 
+                        Content="Serves" 
+                        Grid.Column="4"
+                        Grid.Row="3" 
+                        FontSize="16"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center" 
+                        Foreground="Aqua"
+                        />
+
+                    <Label 
+                        Content="Kcal Per Serve" 
+                        Grid.Column="7"
+                        Grid.Row="3" 
+                        FontSize="16"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center" 
+                        Foreground="Aqua"
+                        />
+
+                    <Button 
+                        Content="Clear" 
+                        Grid.Row="14" 
+                        Grid.Column="3"
+                        Grid.ColumnSpan="2"
+                        HorizontalAlignment="Center" 
+                        VerticalAlignment="Stretch"   
+                        Width="150"  
+                        FontSize="16"
+                        Background="Goldenrod"
+                        Style="{StaticResource ButtonAccentRevealStyle}"
+                        Command="{Binding Path=ClearRecipeCommand}" 
+                        />
+
+                    <Button 
+                        Content="Add" 
+                        Grid.Row="14" 
+                        Grid.Column="5"
+                        Grid.ColumnSpan="2"
+                        HorizontalAlignment="Center" 
+                        VerticalAlignment="Stretch"  
+                        Width="150"  
+                        FontSize="16"
+                        Background="CadetBlue"
+                        Style="{StaticResource ButtonAccentRevealStyle}"
+                        Command="{Binding AddRecipeCommand}"  
                         />
                 </Grid>
             </TabItem>

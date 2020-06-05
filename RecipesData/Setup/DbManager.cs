@@ -263,7 +263,7 @@ namespace RecipesData.Setup
                                         .Recipes
                                         .Include(e => e.Category)
                                         .FirstOrDefault(
-                                            e => e.Id == r.Id || e.Name == r.Name
+                                            e => e.Id == r.Id || e.Name.Trim().ToLower() == r.Name.Trim().ToLower()
                                         );
 
                         case IngredientQuantity iq:

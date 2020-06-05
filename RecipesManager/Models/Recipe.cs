@@ -124,7 +124,7 @@ namespace RecipesManager.Models
         #region ToString
         public override string ToString()
         {
-            return Name;
+            return $"{Name} (Category: {Category.Name} - ID: {Category.Id})";
         }
         #endregion
 

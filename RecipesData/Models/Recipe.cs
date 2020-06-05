@@ -12,6 +12,8 @@ namespace RecipesData.Models
         public int CategoryId { get; set; }
 
         [Required]
+        [MaxLength(200)]
+        [Index(IsUnique = true)]
         public virtual string Name { get; set; }
 
         [Column(TypeName = "TEXT")]
