@@ -17,9 +17,39 @@ namespace RecipesManager.ViewModels
     class IngredientQuantitiesViewModel : IViewIngredientQuantitiesViewModel, INotifyPropertyChanged
     {
         private readonly IDbManager dbManager;
-        public ObservableCollection<RecipesManager.Models.IngredientQuantity> Items { get; set; }
-        public ObservableCollection<RecipesManager.Models.Recipe> Recipes { get; set; }
-        public ObservableCollection<RecipesManager.Models.Ingredient> Ingredients { get; set; }
+        private ObservableCollection<Models.IngredientQuantity> items;
+
+        public ObservableCollection<Models.IngredientQuantity> Items
+        {
+            get => items;
+            set
+            {
+                items = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private ObservableCollection<Models.Recipe> recipes;
+        public ObservableCollection<RecipesManager.Models.Recipe> Recipes
+        {
+            get => recipes;
+            set
+            {
+                recipes = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private ObservableCollection<Models.Ingredient> ingredients;
+        public ObservableCollection<RecipesManager.Models.Ingredient> Ingredients
+        {
+            get => ingredients;
+            set
+            {
+                ingredients = value;
+                OnPropertyChanged();
+            }
+        }
 
         private RecipesManager.Models.IngredientQuantity selectedIQ;
 

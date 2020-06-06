@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 
 namespace RecipesManager.Models
 {
-    class IngredientQuantity : INotifyPropertyChanged, IEquatable<IngredientQuantity>
+    [Serializable()]
+    class IngredientQuantity : INotifyPropertyChanged, IEquatable<IngredientQuantity>, ISerializable
     {
         private int id;
         private int ingredientId;
@@ -15,6 +17,28 @@ namespace RecipesManager.Models
 
         private Ingredient ingredient;
         private Recipe recipe;
+
+        public IngredientQuantity() { }
+
+        public IngredientQuantity(int Id, int IngredientId, int RecipeId, string Quantity, decimal? Amount)
+        {
+            this.Id = Id;
+            this.IngredientId = IngredientId;
+            this.RecipeId = RecipeId;
+            this.Quantity = Quantity;
+            this.Amount = Amount;
+        }
+
+        protected IngredientQuantity(SerializationInfo info, StreamingContext context)
+        {
+            Id = (int)info.GetValue("Id", typeof(int));
+            IngredientId = (int)info.GetValue("IngredientId", typeof(int));
+            RecipeId = (int)info.GetValue("RecipeId", typeof(int));
+            Quantity = (string)info.GetValue("Quantity", typeof(string));
+            Amount = (decimal?)info.GetValue("Amount", typeof(decimal?));
+            Ingredient = (Ingredient)info.GetValue("Ingredient", typeof(Ingredient));
+            Recipe = (Recipe)info.GetValue("Recipe", typeof(Recipe));
+        }
 
         public int Id
         {
@@ -147,9 +171,21 @@ namespace RecipesManager.Models
         }
         #endregion
 
+        #region ISerializable
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("Id", Id);
+            info.AddValue("IngredientId", IngredientId);
+            info.AddValue("RecipeId", RecipeId);
+            info.AddValue("Quantity", Quantity);
+            info.AddValue("Amount", Amount);
+            info.AddValue("Ingredient", Ingredient);
+            info.AddValue("Recipe", Recipe);
+        }
+        #endregion
 
         #region INotifyPropertyChanged
-
+        [field:NonSerialized()]
         public event PropertyChangedEventHandler PropertyChanged;
 
 
@@ -157,8 +193,6 @@ namespace RecipesManager.Models
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-
         #endregion
     }
 }

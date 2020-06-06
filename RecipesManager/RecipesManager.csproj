@@ -92,6 +92,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Helpers\Serialisation\Deserialiser.cs" />
+    <Compile Include="Helpers\Serialisation\Serialiser.cs" />
     <Compile Include="Helpers\Validation\CategoryNameRule.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Ingredient.cs" />

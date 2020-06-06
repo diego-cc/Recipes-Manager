@@ -16,6 +16,7 @@ namespace RecipesManager.ViewModels
 {
     class RecipesViewModel : IViewRecipesViewModel, INotifyPropertyChanged
     {
+        #region Properties
         private readonly IDbManager dbManager;
 
         private ObservableCollection<Recipe> items;
@@ -60,8 +61,27 @@ namespace RecipesManager.ViewModels
             }
         }
 
-        public ObservableCollection<Category> Categories { get; set; }
-        public List<IngredientQuantity> IngredientQuantities { get; set; }
+        private ObservableCollection<Category> categories;
+        public ObservableCollection<Category> Categories
+        {
+            get => categories;
+            set
+            {
+                categories = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private ObservableCollection<IngredientQuantity> ingredientQuantities;
+        public ObservableCollection<IngredientQuantity> IngredientQuantities
+        {
+            get => ingredientQuantities;
+            set
+            {
+                ingredientQuantities = value;
+                OnPropertyChanged();
+            }
+        }
 
         private ObservableCollection<IngredientQuantity> selectedIQ;
 
@@ -166,7 +186,7 @@ namespace RecipesManager.ViewModels
                 if (selectedRecipe != null)
                 {
                     SelectedIngredientQuantities = new ObservableCollection<IngredientQuantity>(
-                        IngredientQuantities.FindAll(iq => iq.Recipe.Id == selectedRecipe.Id)
+                        IngredientQuantities.Where(iq => iq.Recipe.Id == selectedRecipe.Id)
                       );
                 }
                 return selectedRecipe;
@@ -195,6 +215,9 @@ namespace RecipesManager.ViewModels
             }
         }
 
+        #endregion
+
+        #region Constructor
         public RecipesViewModel(IDbManager dbManager)
         {
             this.dbManager = dbManager;
@@ -241,7 +264,7 @@ namespace RecipesManager.ViewModels
                 })
             );
 
-            IngredientQuantities = new List<IngredientQuantity>
+            IngredientQuantities = new ObservableCollection<IngredientQuantity>
             (
                 allIngredientQuantities.Select(obj =>
                 {
@@ -278,7 +301,9 @@ namespace RecipesManager.ViewModels
             ClearRecipeCommand = new RelayCommand(ClearRecipe);
             ClearSearchCommand = new RelayCommand(ClearSearch);
         }
+        #endregion
 
+        #region Command Actions
         private void AddRecipe(object obj)
         {
             // basic validation
@@ -429,13 +454,16 @@ namespace RecipesManager.ViewModels
         {
             SearchName = "";
         }
+        #endregion
 
+        #region Commands
         public ICommand AddRecipeCommand { get; set; }
         public ICommand DeleteRecipeCommand { get; set; }
         public ICommand UpdateRecipeCommand { get; set; }
         public ICommand RestoreRecipeCommand { get; set; }
         public ICommand ClearRecipeCommand { get; set; }
         public ICommand ClearSearchCommand { get; set; }
+        #endregion
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;

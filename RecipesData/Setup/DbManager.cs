@@ -14,6 +14,14 @@ namespace RecipesData.Setup
     /// </summary>
     public class DbManager : IDbManager
     {
+        public RecipesContext RecipesContext
+        {
+            get => _recipesContext;
+            set
+            {
+                _recipesContext = value;
+            }
+        }
         private RecipesContext _recipesContext;
 
         public bool AddItem(object item)
@@ -27,7 +35,7 @@ namespace RecipesData.Setup
                     switch (item)
                     {
                         case Category c:
-                            _recipesContext.Categories.Add(c);
+                            _recipesContext.Entry(c).State = EntityState.Added;
                             break;
 
                         case Ingredient i:
@@ -35,7 +43,7 @@ namespace RecipesData.Setup
                             break;
 
                         case Recipe r:
-                            _recipesContext.Recipes.Add(r);
+                            _recipesContext.Entry(r).State = EntityState.Added;
                             break;
 
                         case IngredientQuantity iq:
@@ -67,6 +75,10 @@ namespace RecipesData.Setup
                 {
                     Console.WriteLine("Could not add new item");
                     Console.WriteLine(ex.Message);
+                    Console.WriteLine("\n");
+                    Console.WriteLine(ex.InnerException);
+                    Console.WriteLine("\n");
+                    Console.WriteLine(ex.StackTrace);
 
                     return false;
                 }

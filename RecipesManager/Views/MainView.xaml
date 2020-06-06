@@ -57,8 +57,10 @@
                     <MenuItem Header="_Ingredient Quantities" Command="{Binding IngredientQuantitiesCommand}" />
                 </MenuItem>
                 <MenuItem Header="_Tools" Margin="0, 0, 10, 0">
-                    <MenuItem Header="_Import JSON data" />
-                    <MenuItem Header="_Export data as JSON" />
+                    <MenuItem Header="_Import binary data..." Command="{Binding ImportCommand}" />
+                    <MenuItem Header="_Export binary data..." Command="{Binding ExportCommand}" />
+                    <MenuItem Header="Import JSON data (not yet implemented)" />
+                    <MenuItem Header="Export JSON data (not yet implemented)" />
                 </MenuItem>
                 <MenuItem Header="_Help">
                     <MenuItem Header="_About" />

@@ -16,7 +16,17 @@ namespace RecipesManager.ViewModels
     class CategoriesViewModel : IViewCategoriesViewModel, INotifyPropertyChanged
     {
         private readonly IDbManager dbManager;
-        public ObservableCollection<Category> Items { get; set; }
+        private ObservableCollection<Category> items;
+
+        public ObservableCollection<Category> Items
+        {
+            get => items;
+            set
+            {
+                items = value;
+                OnPropertyChanged();
+            }
+        }
 
         private Category selectedCategory;
 

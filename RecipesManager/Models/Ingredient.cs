@@ -2,13 +2,28 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 
 namespace RecipesManager.Models
 {
-    class Ingredient : INotifyPropertyChanged, IEquatable<Ingredient>
+    [Serializable()]
+    class Ingredient : INotifyPropertyChanged, IEquatable<Ingredient>, ISerializable
     {
         private int id;
         private string name;
+
+        public Ingredient() { }
+        public Ingredient(int Id, string Name)
+        {
+            this.Id = Id;
+            this.Name = Name;
+        }
+
+        protected Ingredient(SerializationInfo info, StreamingContext context)
+        {
+            Id = (int)info.GetValue("Id", typeof(int));
+            Name = (string)info.GetValue("Name", typeof(string));
+        }
 
         public int Id
         {
@@ -40,6 +55,14 @@ namespace RecipesManager.Models
         public override string ToString()
         {
             return Name;
+        }
+        #endregion
+
+        #region ISerializable
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("Id", Id);
+            info.AddValue("Name", Name);
         }
         #endregion
 
@@ -78,12 +101,12 @@ namespace RecipesManager.Models
 
         #region INotifyPropertyChanged
 
+        [field:NonSerialized()]
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
         #endregion
     }
 }

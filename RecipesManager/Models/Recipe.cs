@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 
 namespace RecipesManager.Models
 {
-    class Recipe : INotifyPropertyChanged, IEquatable<Recipe>, IComparable<Recipe>
+    [Serializable()]
+    class Recipe : INotifyPropertyChanged, IEquatable<Recipe>, IComparable<Recipe>, ISerializable
     {
         private int id;
         private int categoryId;
@@ -16,6 +18,34 @@ namespace RecipesManager.Models
         private int? preparationTime;
         private int? kcalPerServe;
         private bool? favourite;
+
+        public Recipe() { }
+
+        public Recipe(int Id, int CategoryId, string Name, string Method, int Serves, int? PreparationTime, int? KcalPerServe, bool? Favourite, Category category)
+        {
+            this.Id = Id;
+            this.CategoryId = CategoryId;
+            this.Name = Name;
+            this.Method = Method;
+            this.Serves = Serves;
+            this.PreparationTime = PreparationTime;
+            this.KcalPerServe = KcalPerServe;
+            this.Favourite = Favourite;
+            this.Category = category;
+        }
+
+        protected Recipe(SerializationInfo info, StreamingContext context)
+        {
+            Id = (int)info.GetValue("Id", typeof(int));
+            Name = (string)info.GetValue("Name", typeof(string));
+            Method = (string)info.GetValue("Method", typeof(string));
+            PreparationTime = (int?)info.GetValue("PreparationTime", typeof(int?));
+            KcalPerServe = (int?)info.GetValue("KcalPerServe", typeof(int?));
+            Serves = (int)info.GetValue("Serves", typeof(int));
+            Favourite = (bool?)info.GetValue("Favourite", typeof(bool));
+            CategoryId = (int)info.GetValue("CategoryId", typeof(int));
+            Category = (Category)info.GetValue("Category", typeof(Category));
+        }
 
         private Category category;
 
@@ -188,6 +218,7 @@ namespace RecipesManager.Models
 
         #region INotifyPropertyChanged
 
+        [field:NonSerialized()]
         public event PropertyChangedEventHandler PropertyChanged;
 
 
@@ -195,7 +226,21 @@ namespace RecipesManager.Models
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        #endregion
 
+        #region ISerializable
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("Id", Id);
+            info.AddValue("Name", Name);
+            info.AddValue("Method", Method);
+            info.AddValue("PreparationTime", PreparationTime);
+            info.AddValue("KcalPerServe", KcalPerServe);
+            info.AddValue("Serves", Serves);
+            info.AddValue("Favourite", Favourite);
+            info.AddValue("CategoryId", CategoryId);
+            info.AddValue("Category", Category);
+        }
         #endregion
     }
 }
