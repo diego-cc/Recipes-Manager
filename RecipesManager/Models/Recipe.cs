@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace RecipesManager.Models
 {
-    class Recipe : INotifyPropertyChanged, IEquatable<Recipe>
+    class Recipe : INotifyPropertyChanged, IEquatable<Recipe>, IComparable<Recipe>
     {
         private int id;
         private int categoryId;
@@ -161,6 +162,16 @@ namespace RecipesManager.Models
         }
         #endregion
 
+        public int CompareTo(Recipe other)
+        {
+            if (other != null)
+            {
+                return this.Category.CompareTo(other.Category);
+            }
+
+            return 0;
+        }
+
         #region INotifyPropertyChanged
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -170,7 +181,6 @@ namespace RecipesManager.Models
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
 
         #endregion
     }

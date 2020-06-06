@@ -3,8 +3,10 @@ using RecipesManager.Commands;
 using RecipesManager.Models;
 using RecipesManager.ViewModels.Services;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -15,14 +17,153 @@ namespace RecipesManager.ViewModels
     class RecipesViewModel : IViewRecipesViewModel, INotifyPropertyChanged
     {
         private readonly IDbManager dbManager;
-        public ObservableCollection<Recipe> Items { get; set; }
+
+        private ObservableCollection<Recipe> items;
+
+        public ObservableCollection<Recipe> Items
+        {
+            get
+            {
+                if (items == null)
+                {
+                    items = new ObservableCollection<Recipe>();
+                }
+
+                FilteredItems = new ObservableCollection<Recipe>(items);
+
+                return items;
+            }
+            set
+            {
+                items = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private ObservableCollection<Recipe> filteredItems;
+
+        public ObservableCollection<Recipe> FilteredItems
+        {
+            get
+            {
+                if (filteredItems == null)
+                {
+                    filteredItems = new ObservableCollection<Recipe>();
+                }
+
+                return filteredItems;
+            }
+            set
+            {
+                filteredItems = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ObservableCollection<Category> Categories { get; set; }
+        public List<IngredientQuantity> IngredientQuantities { get; set; }
+
+        private ObservableCollection<IngredientQuantity> selectedIQ;
+
+        public ObservableCollection<IngredientQuantity> SelectedIngredientQuantities
+        {
+            get
+            {
+                if (selectedIQ == null)
+                {
+                    selectedIQ = new ObservableCollection<IngredientQuantity>();
+                }
+                return selectedIQ;
+            }
+            set
+            {
+                selectedIQ = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private ObservableCollection<string> sortOptions;
+
+        public ObservableCollection<string> SortOptions
+        {
+            get => sortOptions;
+            set
+            {
+                sortOptions = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string selectedSortOption;
+
+        public string SelectedSortOption
+        {
+            get
+            {
+                TextInfo textInfo = new CultureInfo("en-AU", false).TextInfo;
+
+                FilteredItems = new ObservableCollection<Recipe>(FilteredItems.OrderBy(r =>
+                {
+                    string propToPascalCase = textInfo.ToTitleCase(selectedSortOption.Trim().ToLower()).Replace(" ", "");
+
+                    if (propToPascalCase == "Category")
+                    {
+                        return r.Category.Name;
+                    }
+
+                    return r.GetType().GetProperty(propToPascalCase).GetValue(r, null);
+                }));                
+
+                return selectedSortOption;
+            }
+            set
+            {
+                selectedSortOption = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string searchName = "";
+
+        public string SearchName
+        {
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(searchName))
+                {
+                    FilteredItems = new ObservableCollection<Recipe>
+                        (
+                            Items.Where(r => r.Name.ToLower().StartsWith(searchName.ToLower()))
+                        );
+                }
+                else
+                {
+                    FilteredItems = new ObservableCollection<Recipe>(Items);
+                }
+
+                return searchName;
+            }
+            set
+            {
+                searchName = value;
+                OnPropertyChanged();
+            }
+        }
 
         private Recipe selectedRecipe;
 
         public Recipe SelectedRecipe
         {
-            get => selectedRecipe;
+            get
+            {
+                if (selectedRecipe != null)
+                {
+                    SelectedIngredientQuantities = new ObservableCollection<IngredientQuantity>(
+                        IngredientQuantities.FindAll(iq => iq.Recipe.Id == selectedRecipe.Id)
+                      );
+                }
+                return selectedRecipe;
+            }
             set
             {
                 selectedRecipe = value;
@@ -52,6 +193,7 @@ namespace RecipesManager.ViewModels
 
             var allRecipes = this.dbManager.BrowseItems(typeof(RecipesData.Models.Recipe));
             var allCategories = this.dbManager.BrowseItems(typeof(RecipesData.Models.Category));
+            var allIngredientQuantities = this.dbManager.BrowseItems(typeof(RecipesData.Models.IngredientQuantity));
 
             Items = new ObservableCollection<Recipe>
             (
@@ -90,11 +232,42 @@ namespace RecipesManager.ViewModels
                 })
             );
 
+            IngredientQuantities = new List<IngredientQuantity>
+            (
+                allIngredientQuantities.Select(obj =>
+                {
+                    var iqEntity = (RecipesData.Models.IngredientQuantity)obj;
+
+                    return new IngredientQuantity
+                    {
+                        Id = iqEntity.Id,
+                        Ingredient = new Ingredient
+                        {
+                            Id = iqEntity.Ingredient.Id,
+                            Name = iqEntity.Ingredient.Name
+                        },
+                        Recipe = new Recipe
+                        {
+                            Id = iqEntity.Recipe.Id,
+                            Name = iqEntity.Recipe.Name
+                        },
+                        Quantity = iqEntity.Quantity,
+                        Amount = iqEntity.Amount
+                    };
+                })
+            );
+
+            FilteredItems = new ObservableCollection<Recipe>(Items);
+
+            SortOptions = new ObservableCollection<string> { "ID", "Name", "Category", "Preparation time", "Serves", "Kcal per serve" };
+            SelectedSortOption = SortOptions[0];
+
             AddRecipeCommand = new RelayCommand(AddRecipe);
             DeleteRecipeCommand = new RelayCommand(DeleteRecipe);
             UpdateRecipeCommand = new RelayCommand(UpdateRecipe);
             RestoreRecipeCommand = new RelayCommand(RestoreRecipe);
             ClearRecipeCommand = new RelayCommand(ClearRecipe);
+            ClearSearchCommand = new RelayCommand(ClearSearch);
         }
 
         private void AddRecipe(object obj)
@@ -235,11 +408,17 @@ namespace RecipesManager.ViewModels
             };
         }
 
+        private void ClearSearch(object obj)
+        {
+            SearchName = "";
+        }
+
         public ICommand AddRecipeCommand { get; set; }
         public ICommand DeleteRecipeCommand { get; set; }
         public ICommand UpdateRecipeCommand { get; set; }
         public ICommand RestoreRecipeCommand { get; set; }
         public ICommand ClearRecipeCommand { get; set; }
+        public ICommand ClearSearchCommand { get; set; }
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;

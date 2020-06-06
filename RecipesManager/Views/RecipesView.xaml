@@ -10,98 +10,356 @@
     <Grid>
         <TabControl>
             <TabItem Header="_Records">
-                <ListView 
-                    ItemsSource="{Binding Items, Mode=TwoWay}"  
-                    SelectedItem="{Binding SelectedRecipe}"
-                    SelectionMode="Single"
-                    HorizontalContentAlignment="Center"
-                    HorizontalAlignment="Center"
-                    Width="1280"
-                >
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter 
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="500" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        >
+                        <Label 
+                            FontSize="16"
+                            Content="Sort by:"
+                            Margin="0, 0, 10, 0"
+                            />
+
+                        <ComboBox
+                            ItemsSource="{Binding SortOptions}"
+                            SelectedItem="{Binding SelectedSortOption, Mode=TwoWay}"
+                            HorizontalAlignment="Center"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Width="150"
+                            >
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <StackPanel
+                        Grid.Column="1"
+                        Grid.Row="0"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        >
+                        <Label
+                            Content="Search by name:"
+                            FontSize="16"
+                            Margin="0, 0, 10, 0"
+                            />
+                        <TextBox
+                            Text="{Binding SearchName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Width="200"
+                            FontSize="14"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"  
+                            Margin="0, 0, 20, 0"
+                            />
+
+                        <Button
+                            Style="{StaticResource ButtonAccentRevealStyle}"
+                            Background="Goldenrod"
+                            Content="Clear"
+                            Width="100"
+                            Command="{Binding ClearSearchCommand}"
+                            />
+                    </StackPanel>
+                    
+                    <ListView 
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        ItemsSource="{Binding FilteredItems, Mode=TwoWay}"  
+                        SelectedItem="{Binding SelectedRecipe}"
+                        SelectionMode="Single"
+                        HorizontalContentAlignment="Center"
+                        HorizontalAlignment="Center"
+                        Width="1280"
+                    >
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter 
                                 Property="HorizontalContentAlignment"
                                 Value="Stretch"
                                 ></Setter>
-                            <Setter Property="VerticalContentAlignment" Value="Stretch"></Setter>
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="ID" Width="100">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock 
+                                <Setter Property="VerticalContentAlignment" Value="Stretch"></Setter>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="ID" Width="100">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock 
                                             Text="{Binding Id}"
                                             HorizontalAlignment="Center"
                                             />
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Header="Name" Width="100">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock 
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Name" Width="100">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock 
                                             Text="{Binding Name}"
                                             HorizontalAlignment="Center"
                                             />
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Header="Category" Width="100">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock 
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Category" Width="100">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock 
                                             Text="{Binding Category}"
                                             HorizontalAlignment="Center"
                                             />
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Header="Preparation time" Width="120">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock 
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Preparation time" Width="120">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock 
                                             Text="{Binding PreparationTime}"
                                             HorizontalAlignment="Center"
                                             />
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Header="Serves" Width="100">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock 
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Serves" Width="100">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock 
                                             Text="{Binding Serves}"
                                             HorizontalAlignment="Center"
                                             />
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Header="Kcal Per Serve" Width="100">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock 
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Kcal Per Serve" Width="100">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock 
                                             Text="{Binding KcalPerServe}"
                                             HorizontalAlignment="Center"
                                             />
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Header="Method" Width="400">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock 
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Method" Width="400">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock 
                                             Text="{Binding Method}"
                                             HorizontalAlignment="Center"
                                             />
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
+                
+            </TabItem>
+
+            <TabItem Header="_View">
+                <Grid Background="{x:Static fw:AccentColors.ImmersiveSystemAccentDark1Brush}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock 
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="24"
+                        FontFamily="Segoe UI"
+                        Foreground="Aquamarine"
+                        >
+                        <TextBlock.Inlines>
+                            <Run Text="{Binding SelectedRecipe.Name}" />
+                            (
+                            <Run Text="{Binding SelectedRecipe.Category.Name}" />
+                            )
+                        </TextBlock.Inlines>
+                    </TextBlock>
+
+                    <TextBlock
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        Text="List of ingredients"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="20"
+                        Foreground="PapayaWhip"
+                        />
+
+                    <ListView 
+                        ItemsSource="{Binding SelectedIngredientQuantities}"  
+                        SelectionMode="Single"
+                        HorizontalContentAlignment="Center"
+                        HorizontalAlignment="Center"
+                        Grid.Column="0"
+                        Grid.Row="4"
+                    >
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter 
+                                Property="HorizontalContentAlignment"
+                                Value="Stretch"
+                                ></Setter>
+                                <Setter Property="VerticalContentAlignment" Value="Stretch"></Setter>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="ID" Width="100">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock 
+                                            Text="{Binding Ingredient.Id}"
+                                            HorizontalAlignment="Center"
+                                            />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Name" Width="100">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock 
+                                            Text="{Binding Ingredient.Name}"
+                                            HorizontalAlignment="Center"
+                                            />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Quantity" Width="100">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock 
+                                            Text="{Binding Quantity}"
+                                            HorizontalAlignment="Center"
+                                            />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Amount" Width="100">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock 
+                                            Text="{Binding Amount}"
+                                            HorizontalAlignment="Center"
+                                            />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+
+                    <TextBlock
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        Text="Preparation"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="20"
+                        Foreground="PapayaWhip"
+                        />
+
+                    <StackPanel 
+                        Grid.Column="1"
+                        Grid.Row="4"
+                        Orientation="Vertical"
+                        Background="BlanchedAlmond"
+                        >
+                        <TextBlock
+                            Text="{Binding SelectedRecipe.Method}"
+                            FontSize="16"
+                            TextWrapping="Wrap"
+                            Padding="20, 20, 20, 20"
+                            Foreground="Black"
+                        />
+                    </StackPanel>
+
+                    <TextBlock
+                        Grid.Row="3"
+                        Grid.Column="3"
+                        Text="Details"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="20"
+                        Foreground="PapayaWhip"
+                        />
+
+                    <StackPanel 
+                        Grid.Column="3"
+                        Grid.Row="4"
+                        Orientation="Vertical"
+                        >
+                        <TextBlock
+                            FontSize="16"
+                            Foreground="Aquamarine"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Margin="0, 0, 0, 30"
+                        >
+                            <Run Text="Preparation time (minutes):" />
+                            <Run Text="{Binding SelectedRecipe.PreparationTime}" />
+                        </TextBlock>
+
+                        <TextBlock
+                            FontSize="16"
+                            Foreground="Aquamarine"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Margin="0, 0, 0, 30"
+                        >
+                            <Run Text="Number of serves:" />
+                            <Run Text="{Binding SelectedRecipe.Serves}" />
+                        </TextBlock>
+
+                        <TextBlock
+                            FontSize="16"
+                            Foreground="Aquamarine"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Margin="0, 0, 0, 10"
+                        >
+                            <Run Text="Kcal per serve:" />
+                            <Run Text="{Binding SelectedRecipe.KcalPerServe}" />
+                        </TextBlock>
+                    </StackPanel>
+
+                </Grid>
             </TabItem>
 
             <TabItem Header="_Modify">
@@ -379,8 +637,7 @@
 
                     <TextBox 
                         Grid.Row="1" 
-                        Grid.Column="3"
-                        Grid.ColumnSpan="2"
+                        Grid.Column="2"
                         Width="150"
                         HorizontalAlignment="Center" 
                         VerticalAlignment="Stretch"
@@ -392,8 +649,7 @@
 
                     <ComboBox 
                         Grid.Row="1"
-                        Grid.Column="6"
-                        Grid.ColumnSpan="2"
+                        Grid.Column="5"
                         Width="150"
                         HorizontalAlignment="Center"
                         HorizontalContentAlignment="Center"
@@ -459,8 +715,7 @@
                         />
                     <Label 
                         Content="Recipe name" 
-                        Grid.Column="2"
-                        Grid.ColumnSpan="2"
+                        Grid.Column="1"
                         Grid.Row="1" 
                         FontSize="16"
                         HorizontalAlignment="Center"
@@ -470,8 +725,7 @@
 
                     <Label 
                         Content="Category" 
-                        Grid.Column="5"
-                        Grid.ColumnSpan="2"
+                        Grid.Column="4"
                         Grid.Row="1" 
                         FontSize="16"
                         HorizontalAlignment="Center"
@@ -549,6 +803,8 @@
                         />
                 </Grid>
             </TabItem>
+
+            
         </TabControl>
     </Grid>
 </UserControl>

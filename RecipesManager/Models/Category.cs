@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace RecipesManager.Models
 {
-    class Category : INotifyPropertyChanged, IEquatable<Category>
+    class Category : INotifyPropertyChanged, IEquatable<Category>, IComparable<Category>
     {
         private int id;
         private string name;
@@ -75,6 +75,18 @@ namespace RecipesManager.Models
             return !(left == right);
         }
 
+        #endregion
+
+        #region IComparable
+        public int CompareTo(Category other)
+        {
+            if (other != null)
+            {
+                return string.Compare(this.Name, other.Name);
+            }
+
+            return 0;
+        }
         #endregion
 
 
