@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RecipesData.Models
 {
-    public class Recipe
+    public class Recipe : ModelBase
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -24,6 +24,8 @@ namespace RecipesData.Models
         public int? PreparationTime { get; set; }
 
         public int? KcalPerServe { get; set; }
+
+        public bool? Favourite { get; set; } = false;
 
         public virtual Category Category { get; set; }
     }

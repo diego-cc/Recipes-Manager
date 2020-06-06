@@ -88,10 +88,15 @@
     <Compile Include="Migrations\202006051819205_RemovedUnique.designer.cs">
       <DependentUpon>202006051819205_RemovedUnique.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202006060741548_Timestamps.cs" />
+    <Compile Include="Migrations\202006060741548_Timestamps.designer.cs">
+      <DependentUpon>202006060741548_Timestamps.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Ingredient.cs" />
     <Compile Include="Models\IngredientQuantity.cs" />
+    <Compile Include="Models\ModelBase.cs" />
     <Compile Include="Models\Recipe.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Setup\DbManager.cs" />
@@ -107,6 +112,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202006051819205_RemovedUnique.resx">
       <DependentUpon>202006051819205_RemovedUnique.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006060741548_Timestamps.resx">
+      <DependentUpon>202006060741548_Timestamps.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

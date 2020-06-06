@@ -31,7 +31,7 @@ namespace RecipesData.Setup
                             break;
 
                         case Ingredient i:
-                            _recipesContext.Ingredients.Add(i);
+                            _recipesContext.Entry(i).State = EntityState.Added;
                             break;
 
                         case Recipe r:
@@ -40,7 +40,6 @@ namespace RecipesData.Setup
 
                         case IngredientQuantity iq:
                             _recipesContext.Entry(iq).State = EntityState.Added;
-                            // _recipesContext.IngredientQuantities.Add(iq);
                             break;
 
                         default:
