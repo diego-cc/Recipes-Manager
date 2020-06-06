@@ -79,7 +79,7 @@
                             Command="{Binding ClearSearchCommand}"
                             />
                     </StackPanel>
-                    
+
                     <ListView 
                         Grid.Row="1"
                         Grid.Column="0"
@@ -93,6 +93,11 @@
                     >
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Favourite}" Value="True">
+                                        <Setter Property="Background" Value="#FFF1F189" />
+                                    </DataTrigger>
+                                </Style.Triggers>
                                 <Setter 
                                 Property="HorizontalContentAlignment"
                                 Value="Stretch"
@@ -172,11 +177,27 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
+                                <GridViewColumn Header="Favourite" Width="100">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Image Width="20" Visibility="Collapsed" x:Name="img">
+                                                <Image.Source>
+                                                    <BitmapImage UriSource="/images/star.png" />
+                                                </Image.Source>
+                                            </Image>
+                                            <DataTemplate.Triggers>
+                                                <DataTrigger Binding="{Binding Favourite}" Value="True">
+                                                    <Setter TargetName="img" Property="Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                            </DataTemplate.Triggers>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
                             </GridView>
                         </ListView.View>
                     </ListView>
                 </Grid>
-                
+
             </TabItem>
 
             <TabItem Header="_View">
@@ -470,7 +491,7 @@
                         />
 
                     <TextBox 
-                        Grid.Row="7" 
+                        Grid.Row="8" 
                         Grid.Column="3"
                         Grid.ColumnSpan="4"
                         Grid.RowSpan="6"
@@ -483,6 +504,18 @@
                         Padding="10, 10, 0, 0"
                         Text="{Binding SelectedRecipe.Method, Mode=TwoWay}" 
                         />
+
+                    <CheckBox 
+                        Grid.Row="5"
+                        Grid.Column="5"
+                        IsChecked="{Binding SelectedRecipe.Favourite, Mode=TwoWay}" 
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        >
+                        <CheckBox.LayoutTransform>
+                            <ScaleTransform ScaleX="2" ScaleY="2" />
+                        </CheckBox.LayoutTransform>
+                    </CheckBox>
 
                     <Label 
                         Content="ID"
@@ -505,7 +538,7 @@
                         />
 
                     <Label 
-                        Content="Category name" 
+                        Content="Category" 
                         Grid.Column="7"
                         Grid.Row="1" 
                         FontSize="16"
@@ -518,7 +551,7 @@
                         Content="Method" 
                         Grid.Column="4"
                         Grid.ColumnSpan="2"
-                        Grid.Row="5" 
+                        Grid.Row="7" 
                         FontSize="16"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center" 
@@ -555,9 +588,19 @@
                         Foreground="Aqua"
                         />
 
+                    <Label 
+                        Content="Favourite" 
+                        Grid.Column="4"
+                        Grid.Row="5" 
+                        FontSize="16"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center" 
+                        Foreground="Aqua"
+                        />
+
                     <Button 
                         Content="Delete" 
-                        Grid.Row="14" 
+                        Grid.Row="15" 
                         Grid.Column="5"
                         Grid.ColumnSpan="3"
                         HorizontalAlignment="Center" 
@@ -572,7 +615,7 @@
 
                     <Button 
                         Content="Update" 
-                        Grid.Row="14" 
+                        Grid.Row="15" 
                         Grid.Column="4"
                         Grid.ColumnSpan="2"
                         HorizontalAlignment="Center" 
@@ -587,7 +630,7 @@
 
                     <Button 
                         Content="Restore" 
-                        Grid.Row="14" 
+                        Grid.Row="15" 
                         Grid.Column="2"
                         Grid.ColumnSpan="3"
                         HorizontalAlignment="Center" 
@@ -637,7 +680,7 @@
 
                     <TextBox 
                         Grid.Row="1" 
-                        Grid.Column="2"
+                        Grid.Column="5"
                         Width="150"
                         HorizontalAlignment="Center" 
                         VerticalAlignment="Stretch"
@@ -649,7 +692,7 @@
 
                     <ComboBox 
                         Grid.Row="1"
-                        Grid.Column="5"
+                        Grid.Column="8"
                         Width="150"
                         HorizontalAlignment="Center"
                         HorizontalContentAlignment="Center"
@@ -713,9 +756,22 @@
                         FontSize="14"
                         Text="{Binding NewRecipe.Method, Mode=TwoWay}" 
                         />
+
+                    <CheckBox
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        IsChecked="{Binding NewRecipe.Favourite, Mode=TwoWay}"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        >
+                        <CheckBox.LayoutTransform>
+                            <ScaleTransform ScaleX="2" ScaleY="2" />
+                        </CheckBox.LayoutTransform>
+                    </CheckBox>
+
                     <Label 
                         Content="Recipe name" 
-                        Grid.Column="1"
+                        Grid.Column="4"
                         Grid.Row="1" 
                         FontSize="16"
                         HorizontalAlignment="Center"
@@ -725,7 +781,7 @@
 
                     <Label 
                         Content="Category" 
-                        Grid.Column="4"
+                        Grid.Column="7"
                         Grid.Row="1" 
                         FontSize="16"
                         HorizontalAlignment="Center"
@@ -774,6 +830,16 @@
                         Foreground="Aqua"
                         />
 
+                    <Label 
+                        Content="Favourite" 
+                        Grid.Column="1"
+                        Grid.Row="1" 
+                        FontSize="16"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center" 
+                        Foreground="Aqua"
+                        />
+
                     <Button 
                         Content="Clear" 
                         Grid.Row="14" 
@@ -804,7 +870,7 @@
                 </Grid>
             </TabItem>
 
-            
+
         </TabControl>
     </Grid>
 </UserControl>

@@ -92,6 +92,10 @@
     <Compile Include="Migrations\202006060741548_Timestamps.designer.cs">
       <DependentUpon>202006060741548_Timestamps.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202006060943278_Timestamps1.cs" />
+    <Compile Include="Migrations\202006060943278_Timestamps1.designer.cs">
+      <DependentUpon>202006060943278_Timestamps1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Ingredient.cs" />
@@ -115,6 +119,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202006060741548_Timestamps.resx">
       <DependentUpon>202006060741548_Timestamps.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006060943278_Timestamps1.resx">
+      <DependentUpon>202006060943278_Timestamps1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

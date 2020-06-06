@@ -15,6 +15,7 @@ namespace RecipesManager.Models
         private int serves;
         private int? preparationTime;
         private int? kcalPerServe;
+        private bool? favourite;
 
         private Category category;
 
@@ -117,6 +118,19 @@ namespace RecipesManager.Models
                 if (category != value)
                 {
                     category = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool? Favourite
+        {
+            get => favourite;
+            set
+            {
+                if (favourite != value)
+                {
+                    favourite = value;
                     OnPropertyChanged();
                 }
             }

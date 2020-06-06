@@ -102,17 +102,24 @@ namespace RecipesManager.ViewModels
             {
                 TextInfo textInfo = new CultureInfo("en-AU", false).TextInfo;
 
-                FilteredItems = new ObservableCollection<Recipe>(FilteredItems.OrderBy(r =>
+                if (selectedSortOption == "Favourite")
                 {
-                    string propToPascalCase = textInfo.ToTitleCase(selectedSortOption.Trim().ToLower()).Replace(" ", "");
-
-                    if (propToPascalCase == "Category")
+                    FilteredItems = new ObservableCollection<Recipe>(FilteredItems.OrderByDescending(r => r.Favourite));
+                }
+                else
+                {
+                    FilteredItems = new ObservableCollection<Recipe>(FilteredItems.OrderBy(r =>
                     {
-                        return r.Category.Name;
-                    }
+                        string propToPascalCase = textInfo.ToTitleCase(selectedSortOption.Trim().ToLower()).Replace(" ", "");
 
-                    return r.GetType().GetProperty(propToPascalCase).GetValue(r, null);
-                }));                
+                        if (propToPascalCase == "Category")
+                        {
+                            return r.Category.Name;
+                        }
+
+                        return r.GetType().GetProperty(propToPascalCase).GetValue(r, null);
+                    }));
+                }
 
                 return selectedSortOption;
             }
@@ -173,7 +180,8 @@ namespace RecipesManager.ViewModels
 
         private Recipe newRecipe = new Recipe
         {
-            Category = new Category()
+            Category = new Category(),
+            Favourite = false
         };
             
 
@@ -213,7 +221,8 @@ namespace RecipesManager.ViewModels
                         {
                             Id = recipeEntity.CategoryId,
                             Name = recipeEntity.Category.Name
-                        }
+                        },
+                        Favourite = recipeEntity.Favourite
                     };
                 })
             );
@@ -259,7 +268,7 @@ namespace RecipesManager.ViewModels
 
             FilteredItems = new ObservableCollection<Recipe>(Items);
 
-            SortOptions = new ObservableCollection<string> { "ID", "Name", "Category", "Preparation time", "Serves", "Kcal per serve" };
+            SortOptions = new ObservableCollection<string> { "ID", "Name", "Category", "Favourite", "Preparation time", "Serves", "Kcal per serve" };
             SelectedSortOption = SortOptions[0];
 
             AddRecipeCommand = new RelayCommand(AddRecipe);
@@ -286,7 +295,8 @@ namespace RecipesManager.ViewModels
                     PreparationTime = NewRecipe.PreparationTime,
                     Serves = NewRecipe.Serves,
                     KcalPerServe = NewRecipe.KcalPerServe,
-                    Method = NewRecipe.Method
+                    Method = NewRecipe.Method,
+                    Favourite = NewRecipe.Favourite
                 }))
                 {
                     if (MessageBox.Show("Recipe successfully added!", "Recipe added", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK) == MessageBoxResult.OK)
@@ -315,13 +325,17 @@ namespace RecipesManager.ViewModels
                                 PreparationTime = newRecipeData.PreparationTime,
                                 Serves = newRecipeData.Serves,
                                 KcalPerServe = newRecipeData.KcalPerServe,
-                                Method = newRecipeData.Method
+                                Method = newRecipeData.Method,
+                                Favourite = newRecipeData.Favourite
                             });
+
+                            FilteredItems = new ObservableCollection<Recipe>(Items);
                         }
                         // clear fields
                         NewRecipe = new Recipe
                         {
-                            Category = new Category()
+                            Category = new Category(),
+                            Favourite = false
                         };
                     }
                 }
@@ -347,6 +361,7 @@ namespace RecipesManager.ViewModels
                     if (this.dbManager.DeleteItem(new RecipesData.Models.Recipe { Id = SelectedRecipe.Id }))
                     {
                         Items.Remove(SelectedRecipe);
+                        FilteredItems.Remove(SelectedRecipe);
                     }
                 }
             }
@@ -369,7 +384,8 @@ namespace RecipesManager.ViewModels
                     PreparationTime = SelectedRecipe.PreparationTime,
                     Serves = SelectedRecipe.Serves,
                     KcalPerServe = SelectedRecipe.KcalPerServe,
-                    Method = SelectedRecipe.Method
+                    Method = SelectedRecipe.Method,
+                    Favourite = SelectedRecipe.Favourite
                 }))
                 {
                     if (MessageBox.Show("Recipe successfully updated", "Recipe updated", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK) == MessageBoxResult.OK)
@@ -404,7 +420,8 @@ namespace RecipesManager.ViewModels
             // clear fields
             NewRecipe = new Recipe
             {
-                Category = new Category()
+                Category = new Category(),
+                Favourite = false
             };
         }
 
