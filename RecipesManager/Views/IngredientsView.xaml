@@ -75,6 +75,9 @@
             Grid.Column="2"             
             HorizontalAlignment="Stretch" 
             VerticalAlignment="Stretch"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center"
+            FontSize="16"
             IsEnabled="False"
             Text="{Binding SelectedIngredient.Id, Mode=TwoWay}" 
             />
@@ -83,6 +86,9 @@
             Grid.Column="2"
             HorizontalAlignment="Stretch" 
             VerticalAlignment="Stretch"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center"
+            FontSize="16"
             Text="{Binding SelectedIngredient.Name, Mode=TwoWay}" 
             />
 

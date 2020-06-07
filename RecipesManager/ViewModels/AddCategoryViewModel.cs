@@ -5,6 +5,7 @@ using RecipesManager.ViewModels.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
@@ -58,6 +59,17 @@ namespace RecipesManager.ViewModels
                 {
                     Name = "";
                 }
+
+                return;
+            }
+            else if (categories.Any(c => c.Name.Trim().ToLower().Equals(Name.Trim().ToLower())))
+            {
+                if (MessageBox.Show("Category already exists. Please choose a different name.", "Invalid category name", MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK) == MessageBoxResult.OK)
+                {
+                    Name = "";
+                }
+
+                return;
             }
             else
             {

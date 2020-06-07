@@ -7,6 +7,7 @@ using RecipesManager.Commands;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Linq;
 
 namespace RecipesManager.ViewModels
 {
@@ -45,6 +46,15 @@ namespace RecipesManager.ViewModels
                 {
                     Name = "";
                 }
+            }
+            else if (_items.Any(c => c.Name.Trim().ToLower().Equals(Name.Trim().ToLower())))
+            {
+                if (MessageBox.Show("Ingredient already exists. Please choose a different name.", "Invalid ingredient name", MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK) == MessageBoxResult.OK)
+                {
+                    Name = "";
+                }
+
+                return;
             }
             else
             {

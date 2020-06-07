@@ -411,6 +411,16 @@ namespace RecipesManager.ViewModels
                 !string.IsNullOrWhiteSpace(NewRecipe.Category.Name)
                )
             {
+                // check if recipe name already exists
+                if (Items.Any(r => r.Name.Trim().ToLower().Equals(NewRecipe.Name.Trim().ToLower())))
+                {
+                    if (MessageBox.Show("Recipe already exists. Please choose a different name.", "Invalid recipe name", MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK) == MessageBoxResult.OK)
+                    {
+                        NewRecipe.Name = "";
+                    }
+
+                    return;
+                }
                 // add new recipe here
                 if (this.dbManager.AddItem(new RecipesData.Models.Recipe
                 {
@@ -473,6 +483,10 @@ namespace RecipesManager.ViewModels
                         
                     }
                 }
+            }
+            else
+            {
+                MessageBox.Show("Please enter a name for the recipe.", "Invalid recipe name", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
             }
         }
 

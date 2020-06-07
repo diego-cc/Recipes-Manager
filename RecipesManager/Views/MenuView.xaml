@@ -30,10 +30,8 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="200" />
-            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="250" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="200" />
         </Grid.ColumnDefinitions>
 
         <TextBlock 
@@ -64,8 +62,9 @@
             x:Name="btnRecipes"
             Command="{Binding RecipesCommand}"
             Content="Browse recipes" 
-            Grid.Column="2" 
+            Grid.Column="1" 
             Grid.Row="6" 
+            Width="200"
             HorizontalAlignment="Stretch" 
             VerticalAlignment="Stretch" 
             FontSize="16"
@@ -76,8 +75,9 @@
 
         <Button 
             Content="Browse ingredients" 
-            Grid.Column="2" 
+            Grid.Column="1" 
             Grid.Row="8" 
+            Width="200"
             HorizontalAlignment="Stretch" 
             VerticalAlignment="Stretch" 
             FontSize="16"
@@ -90,8 +90,9 @@
         <Button 
             Command="{Binding CategoriesCommand}"
             Content="Browse categories" 
-            Grid.Column="2" 
+            Grid.Column="1" 
             Grid.Row="10" 
+            Width="200"
             HorizontalAlignment="Stretch" 
             VerticalAlignment="Stretch" 
             FontSize="16"
@@ -100,16 +101,14 @@
             Style="{StaticResource ButtonRevealStyle}"
             />
 
+        <!-- Margin="-337.5, 0, 0, 0" -->
         <Button 
             Content="Browse ingredient quantities" 
-            Grid.Column="2" 
-            Grid.ColumnSpan="2"
+            Grid.Column="1" 
             Grid.Row="11" 
-            Width="250"
             Height="50"
-            Margin="-337.5, 0, 0, 0"
-            HorizontalAlignment="Center" 
-            VerticalAlignment="Center" 
+            HorizontalAlignment="Stretch" 
+            VerticalAlignment="Stretch" 
             FontSize="16"
             FontWeight="DemiBold"
             Background="DarkOliveGreen"
