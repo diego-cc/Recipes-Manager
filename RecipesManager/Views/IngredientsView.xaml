@@ -32,6 +32,15 @@
             SelectedItem="{Binding SelectedIngredient}"
             SelectionMode="Single"
             >
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter 
+                                Property="HorizontalContentAlignment"
+                                Value="Stretch"
+                                ></Setter>
+                    <Setter Property="VerticalContentAlignment" Value="Stretch"></Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
             <ListView.View>
                 <GridView>
                     <GridViewColumn 
@@ -51,8 +60,7 @@
             Grid.Row="1" 
             Grid.Column="2"             
             HorizontalAlignment="Stretch" 
-            VerticalAlignment="Center"
-            Height="25"
+            VerticalAlignment="Stretch"
             IsEnabled="False"
             Text="{Binding SelectedIngredient.Id, Mode=TwoWay}" 
             />
@@ -60,8 +68,7 @@
             Grid.Row="3" 
             Grid.Column="2"
             HorizontalAlignment="Stretch" 
-            VerticalAlignment="Center"
-            Height="25"
+            VerticalAlignment="Stretch"
             Text="{Binding SelectedIngredient.Name, Mode=TwoWay}" 
             />
 

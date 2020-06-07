@@ -171,8 +171,9 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock 
-                                            Text="{Binding Method}"
-                                            HorizontalAlignment="Center"
+                                                Text="{Binding Method}"
+                                                HorizontalAlignment="Center"
+                                                TextTrimming="CharacterEllipsis"
                                             />
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
@@ -316,20 +317,23 @@
                         Foreground="PapayaWhip"
                         />
 
-                    <StackPanel 
+                    <ScrollViewer 
                         Grid.Column="1"
                         Grid.Row="4"
-                        Orientation="Vertical"
                         Background="BlanchedAlmond"
+                        VerticalScrollBarVisibility="Auto"
                         >
-                        <TextBlock
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock
                             Text="{Binding SelectedRecipe.Method}"
                             FontSize="16"
                             TextWrapping="Wrap"
                             Padding="20, 20, 20, 20"
-                            Foreground="Black"
+                            Foreground="Black"                            
                         />
-                    </StackPanel>
+                        </StackPanel>
+                    </ScrollViewer>
+                    
 
                     <TextBlock
                         Grid.Row="3"
