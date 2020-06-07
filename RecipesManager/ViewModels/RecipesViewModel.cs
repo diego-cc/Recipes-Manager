@@ -13,9 +13,13 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using RecipesManager.Views;
 
 namespace RecipesManager.ViewModels
 {
+    /// <summary>
+    /// ViewModel for <see cref="RecipesView"/>
+    /// </summary>
     class RecipesViewModel : IViewRecipesViewModel, INotifyPropertyChanged
     {
         #region Properties
@@ -118,6 +122,9 @@ namespace RecipesManager.ViewModels
 
         private string selectedSortOption;
 
+        /// <summary>
+        /// Maps sort options to properties
+        /// </summary>
         public string SelectedSortOption
         {
             get
@@ -224,6 +231,12 @@ namespace RecipesManager.ViewModels
             get => this.dbManager;
         }
 
+        #region Constructor
+        /// <summary>
+        /// Returns an instance of <see cref="RecipesViewModel"/> after executing async tasks
+        /// </summary>
+        /// <param name="dbManager"></param>
+        /// <returns></returns>
         public async static Task<RecipesViewModel> GetInstanceAsync(IDbManager dbManager)
         {
             var allRecipes = await dbManager.BrowseItemsAsync(typeof(RecipesData.Models.Recipe));
@@ -315,94 +328,13 @@ namespace RecipesManager.ViewModels
             ClearRecipeCommand = new RelayCommand(ClearRecipe);
             ClearSearchCommand = new RelayCommand(ClearSearch);
         }
-
-        #region Constructor
-        //public RecipesViewModel(IDbManager dbManager)
-        //{
-        //    this.dbManager = dbManager;
-
-        //    var allRecipes = this.dbManager.BrowseItems(typeof(RecipesData.Models.Recipe));
-        //    var allCategories = this.dbManager.BrowseItems(typeof(RecipesData.Models.Category));
-        //    var allIngredientQuantities = this.dbManager.BrowseItems(typeof(RecipesData.Models.IngredientQuantity));
-
-        //    Items = new ObservableCollection<Recipe>
-        //    (
-        //        allRecipes.Select(obj =>
-        //        {
-        //            var recipeEntity = (RecipesData.Models.Recipe)obj;
-        //            return new Recipe 
-        //            { 
-        //                Id = recipeEntity.Id,
-        //                Name = recipeEntity.Name,
-        //                CategoryId = recipeEntity.CategoryId,
-        //                PreparationTime = recipeEntity.PreparationTime,
-        //                Serves = recipeEntity.Serves,
-        //                KcalPerServe = recipeEntity.KcalPerServe,
-        //                Method = recipeEntity.Method,
-        //                Category = new Category
-        //                {
-        //                    Id = recipeEntity.CategoryId,
-        //                    Name = recipeEntity.Category.Name
-        //                },
-        //                Favourite = recipeEntity.Favourite
-        //            };
-        //        })
-        //    );
-
-        //    Categories = new ObservableCollection<Category>
-        //    (
-        //        allCategories.Select(obj =>
-        //        {
-        //            var categoryEntity = (RecipesData.Models.Category)obj;
-
-        //            return new Category
-        //            {
-        //                Id = categoryEntity.Id,
-        //                Name = categoryEntity.Name
-        //            };
-        //        })
-        //    );
-
-        //    IngredientQuantities = new ObservableCollection<IngredientQuantity>
-        //    (
-        //        allIngredientQuantities.Select(obj =>
-        //        {
-        //            var iqEntity = (RecipesData.Models.IngredientQuantity)obj;
-
-        //            return new IngredientQuantity
-        //            {
-        //                Id = iqEntity.Id,
-        //                Ingredient = new Ingredient
-        //                {
-        //                    Id = iqEntity.Ingredient.Id,
-        //                    Name = iqEntity.Ingredient.Name
-        //                },
-        //                Recipe = new Recipe
-        //                {
-        //                    Id = iqEntity.Recipe.Id,
-        //                    Name = iqEntity.Recipe.Name
-        //                },
-        //                Quantity = iqEntity.Quantity,
-        //                Amount = iqEntity.Amount
-        //            };
-        //        })
-        //    );
-
-        //    FilteredItems = new ObservableCollection<Recipe>(Items);
-
-        //    SortOptions = new ObservableCollection<string> { "ID", "Name", "Category", "Favourite", "Preparation time", "Serves", "Kcal per serve" };
-        //    SelectedSortOption = SortOptions[0];
-
-        //    AddRecipeCommand = new RelayCommand(AddRecipe);
-        //    DeleteRecipeCommand = new RelayCommand(DeleteRecipe);
-        //    UpdateRecipeCommand = new RelayCommand(UpdateRecipe);
-        //    RestoreRecipeCommand = new RelayCommand(RestoreRecipe);
-        //    ClearRecipeCommand = new RelayCommand(ClearRecipe);
-        //    ClearSearchCommand = new RelayCommand(ClearSearch);
-        //}
         #endregion
 
         #region Command Actions
+        /// <summary>
+        /// Adds a new recipe to the database and updaes local collection
+        /// </summary>
+        /// <param name="obj"></param>
         private void AddRecipe(object obj)
         {
             // basic validation
@@ -490,6 +422,10 @@ namespace RecipesManager.ViewModels
             }
         }
 
+        /// <summary>
+        /// Deletes a recipe from the database and updates local collection
+        /// </summary>
+        /// <param name="obj"></param>
         private void DeleteRecipe(object obj)
         {
             if (SelectedRecipe != null)
@@ -505,6 +441,10 @@ namespace RecipesManager.ViewModels
             }
         }
 
+        /// <summary>
+        /// Updates a recipe in the database
+        /// </summary>
+        /// <param name="obj"></param>
         private void UpdateRecipe(object obj)
         {
             // basic validation
@@ -534,6 +474,10 @@ namespace RecipesManager.ViewModels
             }
         }
 
+        /// <summary>
+        /// Restores a recipe to its original state
+        /// </summary>
+        /// <param name="obj"></param>
         private void RestoreRecipe(object obj)
         {
             var originalSelectedRecipe = this.dbManager.ReadItem(new RecipesData.Models.Recipe { Id = SelectedRecipe.Id });
@@ -553,6 +497,10 @@ namespace RecipesManager.ViewModels
             }
         }
 
+        /// <summary>
+        /// Clears <see cref="NewRecipe"/> fields
+        /// </summary>
+        /// <param name="obj"></param>
         private void ClearRecipe(object obj)
         {
             // clear fields
@@ -563,6 +511,10 @@ namespace RecipesManager.ViewModels
             };
         }
 
+        /// <summary>
+        /// Clears search input
+        /// </summary>
+        /// <param name="obj"></param>
         private void ClearSearch(object obj)
         {
             SearchName = "";

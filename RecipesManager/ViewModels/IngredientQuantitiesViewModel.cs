@@ -11,9 +11,13 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
+using RecipesManager.Views;
 
 namespace RecipesManager.ViewModels
 {
+    /// <summary>
+    /// ViewModel for <see cref="IngredientQuantitiesView"/>
+    /// </summary>
     class IngredientQuantitiesViewModel : IViewIngredientQuantitiesViewModel, INotifyPropertyChanged
     {
         private readonly IDbManager dbManager;
@@ -30,7 +34,7 @@ namespace RecipesManager.ViewModels
         }
 
         private ObservableCollection<Models.Recipe> recipes;
-        public ObservableCollection<RecipesManager.Models.Recipe> Recipes
+        public ObservableCollection<Models.Recipe> Recipes
         {
             get => recipes;
             set
@@ -41,7 +45,7 @@ namespace RecipesManager.ViewModels
         }
 
         private ObservableCollection<Models.Ingredient> ingredients;
-        public ObservableCollection<RecipesManager.Models.Ingredient> Ingredients
+        public ObservableCollection<Models.Ingredient> Ingredients
         {
             get => ingredients;
             set
@@ -51,9 +55,9 @@ namespace RecipesManager.ViewModels
             }
         }
 
-        private RecipesManager.Models.IngredientQuantity selectedIQ;
+        private Models.IngredientQuantity selectedIQ;
 
-        public RecipesManager.Models.IngredientQuantity SelectedIngredientQuantity
+        public Models.IngredientQuantity SelectedIngredientQuantity
         {
             get => selectedIQ;
             set
@@ -63,14 +67,14 @@ namespace RecipesManager.ViewModels
             }
         }
 
-        private RecipesManager.Models.IngredientQuantity newIQ = new RecipesManager.Models.IngredientQuantity
+        private Models.IngredientQuantity newIQ = new Models.IngredientQuantity
         {
-            Ingredient = new RecipesManager.Models.Ingredient(),
-            Recipe = new RecipesManager.Models.Recipe()
+            Ingredient = new Models.Ingredient(),
+            Recipe = new Models.Recipe()
         };
 
 
-        public RecipesManager.Models.IngredientQuantity NewIngredientQuantity
+        public Models.IngredientQuantity NewIngredientQuantity
         {
             get => newIQ;
             set
@@ -84,13 +88,13 @@ namespace RecipesManager.ViewModels
         {
             this.dbManager = dbManager;
 
-            var allIngredients = this.dbManager.BrowseItems(typeof(RecipesData.Models.Ingredient));
+            var allIngredients = this.dbManager.BrowseItems(typeof(Ingredient));
 
-            Ingredients = new ObservableCollection<RecipesManager.Models.Ingredient>
+            Ingredients = new ObservableCollection<Models.Ingredient>
             (
                 allIngredients.Select(i =>
                 {
-                    var ingEntity = (RecipesData.Models.Ingredient)i;
+                    var ingEntity = (Ingredient)i;
 
                     return new RecipesManager.Models.Ingredient
                     {
@@ -157,6 +161,10 @@ namespace RecipesManager.ViewModels
             ClearIngredientQuantityCommand = new RelayCommand(ClearIngredientQuantity);
         }
 
+        /// <summary>
+        /// Adds a new ingredient quantity to the database and updates the local collection
+        /// </summary>
+        /// <param name="obj"></param>
         private void AddIngredientQuantity(object obj)
         {
             // basic checks
@@ -240,6 +248,10 @@ namespace RecipesManager.ViewModels
             
         }
 
+        /// <summary>
+        /// Deletes an ingredient quantity record from the database and updates local collection
+        /// </summary>
+        /// <param name="obj"></param>
         private void DeleteIngredientQuantity(object obj)
         {
             if (SelectedIngredientQuantity != null)
@@ -254,6 +266,10 @@ namespace RecipesManager.ViewModels
             }
         }
 
+        /// <summary>
+        /// Updates an ingredient quantity record in the database
+        /// </summary>
+        /// <param name="obj"></param>
         private void UpdateIngredientQuantity(object obj)
         {
             // basic check
@@ -281,6 +297,10 @@ namespace RecipesManager.ViewModels
             }            
         }
 
+        /// <summary>
+        /// Restores all fields of an ingredient quantity (triggered when the Restore button is clicked)
+        /// </summary>
+        /// <param name="obj"></param>
         private void RestoreIngredientQuantity(object obj)
         {
             var originalSelectedIQ = this.dbManager.ReadItem(new RecipesData.Models.IngredientQuantity { Id = SelectedIngredientQuantity.Id });
@@ -307,6 +327,10 @@ namespace RecipesManager.ViewModels
             }
         }
 
+        /// <summary>
+        /// Clears quantity and amount fields of <see cref="NewIngredientQuantity"/>
+        /// </summary>
+        /// <param name="obj"></param>
         private void ClearIngredientQuantity(object obj)
         {
             // clear fields

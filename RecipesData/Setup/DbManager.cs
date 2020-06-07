@@ -11,7 +11,8 @@ using System.Threading.Tasks;
 namespace RecipesData.Setup
 {
     /// <summary>
-    /// Main implementation of the IDbManager interface
+    /// Main implementation of the IDbManager interface.
+    /// Implements methods that perform all BREAD operations pertaining to all entities
     /// </summary>
     public class DbManager : IDbManager
     {
@@ -569,6 +570,10 @@ namespace RecipesData.Setup
             }
         }
 
+        /// <summary>
+        /// Clears all tables in the database.
+        /// <para><see cref="Database.ExecuteSqlCommand(string, object[])"/> was used here for convenience. Despite passing a raw query string, it still wraps the operation in a transaction.</para>
+        /// </summary>
         public void ResetDatabaseState()
         {
             if (_recipesContext is RecipesContext)
@@ -649,6 +654,10 @@ namespace RecipesData.Setup
             }
         }
 
+        /// <summary>
+        /// Seeds the database from an SQL file
+        /// </summary>
+        /// <param name="seedDataPath">Full path to the seed data file</param>
         public void SeedDatabase(string seedDataPath)
         {
             if (_recipesContext is RecipesContext)

@@ -12,6 +12,9 @@ using System.Windows.Input;
 
 namespace RecipesManager.ViewModels
 {
+    /// <summary>
+    /// ViewModel for <see cref="IngredientsView"/>
+    /// </summary>
     class IngredientsViewModel : IViewIngredientsViewModel, INotifyPropertyChanged
     {
         private readonly IDbManager dbManager;
@@ -49,6 +52,10 @@ namespace RecipesManager.ViewModels
             UpdateIngredientCommand = new RelayCommand(UpdateIngredient);
         }
 
+        /// <summary>
+        /// Instantiates <see cref="AddIngredientView"/>
+        /// </summary>
+        /// <param name="obj"></param>
         private void OpenAddIngredient(object obj)
         {
             var addIngredientVM = new AddIngredientViewModel(this.dbManager, Items);
@@ -57,6 +64,10 @@ namespace RecipesManager.ViewModels
             addIngredientView.Show();
         }
 
+        /// <summary>
+        /// Deletes an ingredient from the database and updates local collection
+        /// </summary>
+        /// <param name="obj"></param>
         private void DeleteIngredient(object obj)
         {
             if (SelectedIngredient != null)
@@ -71,6 +82,10 @@ namespace RecipesManager.ViewModels
             }
         }
 
+        /// <summary>
+        /// Updates an ingredient record in the database
+        /// </summary>
+        /// <param name="obj"></param>
         private void UpdateIngredient(object obj)
         {
             if (SelectedIngredient != null && !string.IsNullOrEmpty(SelectedIngredient.Name) && !string.IsNullOrWhiteSpace(SelectedIngredient.Name))

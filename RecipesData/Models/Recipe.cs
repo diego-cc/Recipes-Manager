@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RecipesData.Models
 {
+    /// <summary>
+    /// Recipe entity
+    /// </summary>
     public class Recipe : ModelBase
     {
         [Key]

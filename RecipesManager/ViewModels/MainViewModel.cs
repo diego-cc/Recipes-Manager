@@ -15,13 +15,18 @@ using System.Windows;
 using System.Collections.ObjectModel;
 using System;
 using System.Threading.Tasks;
+using RecipesManager.Views;
 
 namespace RecipesManager.ViewModels
 {
+    /// <summary>
+    /// ViewModel for <see cref="MainView"/>
+    /// Updates the content of <see cref="MainView"/> dependending on <see cref="SelectedViewModel"/>
+    /// </summary>
     class MainViewModel : IViewMainViewModel, INotifyPropertyChanged
     {
-        private IDbManager _dbManager;
-        private IViewModel _selectedViewModel;
+        private IDbManager dbManager;
+        private IViewModel selectedViewModel;
 
         public ICommand MenuCommand { get; set; }
         public ICommand CategoriesCommand { get; set; }
@@ -34,17 +39,17 @@ namespace RecipesManager.ViewModels
 
         public IViewModel SelectedViewModel
         {
-            get => _selectedViewModel;
+            get => selectedViewModel;
             set
             {
-                this._selectedViewModel = value;
+                this.selectedViewModel = value;
                 OnPropertyChanged();
             }
         }
 
         public MainViewModel(IDbManager dbManager)
         {
-            this._dbManager = dbManager;
+            this.dbManager = dbManager;
 
             MenuCommand = new RelayCommand(OpenMenu);
             CategoriesCommand = new RelayCommand(OpenCategories);
@@ -55,7 +60,7 @@ namespace RecipesManager.ViewModels
             ImportCommand = new RelayCommand(Import);
             ExportCommand = new RelayCommand(Export);
 
-            SelectedViewModel = new MenuViewModel(this._dbManager, this);
+            SelectedViewModel = new MenuViewModel(this.dbManager, this);
         }
 
         public MainViewModel()
@@ -63,35 +68,60 @@ namespace RecipesManager.ViewModels
 
         }
 
+        /// <summary>
+        /// Shows <see cref="MenuView"/>
+        /// </summary>
+        /// <param name="obj"></param>
         public void OpenMenu(object obj)
         {
-            SelectedViewModel = new MenuViewModel(this._dbManager, this);
+            SelectedViewModel = new MenuViewModel(this.dbManager, this);
         }
 
+        /// <summary>
+        /// Shows <see cref="CategoriesView"/>
+        /// </summary>
+        /// <param name="obj"></param>
         public void OpenCategories(object obj)
         {
-            SelectedViewModel = new CategoriesViewModel(this._dbManager);
+            SelectedViewModel = new CategoriesViewModel(this.dbManager);
         }
 
+        /// <summary>
+        /// Shows <see cref="IngredientsView"/>
+        /// </summary>
+        /// <param name="obj"></param>
         public void OpenIngredients(object obj)
         {
-            SelectedViewModel = new IngredientsViewModel(this._dbManager);
+            SelectedViewModel = new IngredientsViewModel(this.dbManager);
         }
 
+        /// <summary>
+        /// Shows <see cref="RecipesView"/>
+        /// </summary>
+        /// <returns></returns>
         public async Task OpenRecipes()
         {
-            var recipesVM = await RecipesViewModel.GetInstanceAsync(this._dbManager);
+            var recipesVM = await RecipesViewModel.GetInstanceAsync(this.dbManager);
             SelectedViewModel = recipesVM;
         }
 
+        /// <summary>
+        /// Shows <see cref="IngredientQuantitiesView"/>
+        /// </summary>
+        /// <param name="obj"></param>
         public void OpenIngredientQuantities(object obj)
         {
-            SelectedViewModel = new IngredientQuantitiesViewModel(this._dbManager);
+            SelectedViewModel = new IngredientQuantitiesViewModel(this.dbManager);
         }
 
+        /// <summary>
+        /// Exports data to a binary file
+        /// <para>Triggered by the "Export data as binary" menu button</para>
+        /// </summary>
+        /// <param name="obj"></param>
         public void Export(object obj)
         {
-            var recipesData = this._dbManager.BrowseItems(typeof(RecipesData.Models.Recipe));
+            var recipesData = this.dbManager.BrowseItems(typeof(RecipesData.Models.Recipe));
 
             List<Models.Recipe> recipes = new List<Models.Recipe>
                 (
@@ -117,7 +147,7 @@ namespace RecipesManager.ViewModels
                     })
                 );
 
-            var iqsData = this._dbManager.BrowseItems(typeof(RecipesData.Models.IngredientQuantity));
+            var iqsData = this.dbManager.BrowseItems(typeof(RecipesData.Models.IngredientQuantity));
 
             List<Models.IngredientQuantity> iq = new List<Models.IngredientQuantity>
                 (
@@ -146,7 +176,7 @@ namespace RecipesManager.ViewModels
                     })
                 );
 
-            var ingredientsData = this._dbManager.BrowseItems(typeof(RecipesData.Models.Ingredient));
+            var ingredientsData = this.dbManager.BrowseItems(typeof(RecipesData.Models.Ingredient));
 
             var ingredients = new List<Models.Ingredient>
                 (
@@ -162,7 +192,7 @@ namespace RecipesManager.ViewModels
                     })
                 );
 
-            var categoriesData = this._dbManager.BrowseItems(typeof(RecipesData.Models.Category));
+            var categoriesData = this.dbManager.BrowseItems(typeof(RecipesData.Models.Category));
 
             var categories = new List<Models.Category>
                 (
@@ -201,6 +231,11 @@ namespace RecipesManager.ViewModels
             }
         }
 
+        /// <summary>
+        /// Imports collections from a binary file
+        /// <para>Triggered by the "Import binary data" menu button</para>
+        /// </summary>
+        /// <param name="obj"></param>
         public void Import(object obj)
         {
             var dialog = new OpenFileDialog
@@ -226,11 +261,11 @@ namespace RecipesManager.ViewModels
                     ingredientsData = d.DeserialisedIngredients;
                     categoriesData = d.DeserialisedCategories;
 
-                    this._dbManager.ResetDatabaseState();
+                    this.dbManager.ResetDatabaseState();
 
                     foreach (var ingredient in ingredientsData)
                     {
-                        this._dbManager.AddItem
+                        this.dbManager.AddItem
                             (
                                 new RecipesData.Models.Ingredient
                                 {
@@ -241,7 +276,7 @@ namespace RecipesManager.ViewModels
 
                     foreach (var category in categoriesData)
                     {
-                        this._dbManager.AddItem
+                        this.dbManager.AddItem
                             (
                                 new RecipesData.Models.Category
                                 {
@@ -252,13 +287,13 @@ namespace RecipesManager.ViewModels
 
                     foreach (var recipe in recipesData)
                     {
-                        var catData = _dbManager.ReadItem(new RecipesData.Models.Category { Name = recipe.Category.Name });
+                        var catData = dbManager.ReadItem(new RecipesData.Models.Category { Name = recipe.Category.Name });
 
                         if (catData != null)
                         {
                             var cat = (RecipesData.Models.Category)catData;
 
-                            this._dbManager.AddItem
+                            this.dbManager.AddItem
                             (
                                 new RecipesData.Models.Recipe
                                 {
@@ -276,17 +311,17 @@ namespace RecipesManager.ViewModels
 
                     foreach (var iq in iqData)
                     {
-                        var ingData = _dbManager.ReadItem(new RecipesData.Models.Ingredient { Name = iq.Ingredient.Name });
+                        var ingData = dbManager.ReadItem(new RecipesData.Models.Ingredient { Name = iq.Ingredient.Name });
 
                         var ing = (RecipesData.Models.Ingredient)ingData;
 
-                        var recipeData = _dbManager.ReadItem(new RecipesData.Models.Recipe { Name = iq.Recipe.Name });
+                        var recipeData = dbManager.ReadItem(new RecipesData.Models.Recipe { Name = iq.Recipe.Name });
 
                         var recipe = (RecipesData.Models.Recipe)recipeData;
 
                         if (ing != null && recipe != null)
                         {
-                            this._dbManager.AddItem
+                            this.dbManager.AddItem
                             (
                                 new RecipesData.Models.IngredientQuantity
                                 {

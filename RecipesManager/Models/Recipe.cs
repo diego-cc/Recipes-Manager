@@ -7,6 +7,9 @@ using System.Runtime.Serialization;
 
 namespace RecipesManager.Models
 {
+    /// <summary>
+    /// Recipe model class, based on <see cref="RecipesData.Models.Recipe"/>
+    /// </summary>
     [Serializable()]
     class Recipe : INotifyPropertyChanged, IEquatable<Recipe>, IComparable<Recipe>, ISerializable
     {

@@ -3,6 +3,9 @@ using System.Windows.Controls;
 
 namespace RecipesManager.Helpers.Validation
 {
+    /// <summary>
+    /// Contains validation rules for category name
+    /// </summary>
     public class CategoryNameRule : ValidationRule
     {
         public CategoryNameRule()
@@ -10,6 +13,13 @@ namespace RecipesManager.Helpers.Validation
 
         }
 
+        /// <summary>
+        /// Validates category name
+        /// Not currently implemented in the application.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="cultureInfo"></param>
+        /// <returns></returns>
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
             string name = value as string;

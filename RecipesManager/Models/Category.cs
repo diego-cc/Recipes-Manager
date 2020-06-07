@@ -6,6 +6,9 @@ using System.Runtime.Serialization;
 
 namespace RecipesManager.Models
 {
+    /// <summary>
+    /// Category model class, based on <see cref="RecipesData.Models.Category"/>
+    /// </summary>
     [Serializable()]
     class Category : INotifyPropertyChanged, IEquatable<Category>, IComparable<Category>, ISerializable
     {

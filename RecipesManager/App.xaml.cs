@@ -8,7 +8,8 @@ using Unity;
 namespace RecipesManager
 {
     /// <summary>
-    /// Interaction logic for App.xaml
+    /// Entry point of the application
+    /// <para>Registers views and view models for dependency injection, along with <see cref="IDbManager"/></para>
     /// </summary>
     public partial class App : Application
     {

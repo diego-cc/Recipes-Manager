@@ -3,13 +3,17 @@ using RecipesManager.Commands;
 using RecipesManager.ViewModels.Services;
 using System.Collections;
 using System.Windows.Input;
+using RecipesManager.Views;
 
 namespace RecipesManager.ViewModels
 {
+    /// <summary>
+    /// ViewModel for <see cref="MenuView"/>
+    /// </summary>
     class MenuViewModel : IViewMenuViewModel
     {
-        private readonly IDbManager _dbManager;
-        private readonly MainViewModel _mainViewModel;
+        private readonly IDbManager dbManager;
+        private readonly MainViewModel mainViewModel;
 
         public ICollection Items { get; set; }
 
@@ -17,13 +21,13 @@ namespace RecipesManager.ViewModels
 
         public MenuViewModel(IDbManager dbManager, IViewMainViewModel mainViewModel)
         {
-            this._dbManager = dbManager;
-            this._mainViewModel = (MainViewModel)mainViewModel;
+            this.dbManager = dbManager;
+            this.mainViewModel = (MainViewModel)mainViewModel;
 
-            CategoriesCommand = new RelayCommand(this._mainViewModel.OpenCategories);
-            IngredientsCommand = new RelayCommand(this._mainViewModel.OpenIngredients);
-            RecipesCommand = new RelayCommandAsync(this._mainViewModel.OpenRecipes);
-            IngredientQuantitiesCommand = new RelayCommand(this._mainViewModel.OpenIngredientQuantities);
+            CategoriesCommand = new RelayCommand(this.mainViewModel.OpenCategories);
+            IngredientsCommand = new RelayCommand(this.mainViewModel.OpenIngredients);
+            RecipesCommand = new RelayCommandAsync(this.mainViewModel.OpenRecipes);
+            IngredientQuantitiesCommand = new RelayCommand(this.mainViewModel.OpenIngredientQuantities);
         }
 
         public ICommand CategoriesCommand { get; private set; }

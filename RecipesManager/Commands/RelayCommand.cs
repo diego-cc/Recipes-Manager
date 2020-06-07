@@ -4,6 +4,9 @@ using System.Windows.Input;
 
 namespace RecipesManager.Commands
 {
+    /// <summary>
+    /// Manages commands used throughout the application
+    /// </summary>
     public class RelayCommand : ICommand
     {
         private Predicate<object> _canExecute;

@@ -5,6 +5,9 @@ using System.Data.Entity.Infrastructure;
 
 namespace RecipesData.Context
 {
+    /// <summary>
+    /// Contains <see cref="DbSet"/> properties for all entities
+    /// </summary>
     public interface IRecipesContext : IDisposable
     {
         DbSet<Ingredient> Ingredients { get; set; }

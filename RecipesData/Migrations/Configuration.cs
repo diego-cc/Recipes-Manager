@@ -1,20 +1,18 @@
-﻿namespace RecipesData.Migrations
-{
-    using RecipesData.Models;
-    using System;
-    using System.Data.Entity;
-    using System.Data.Entity.Migrations;
-    using System.Data.Entity.Validation;
-    using System.Linq;
+﻿using RecipesData.Models;
+using System;
+using System.Data.Entity.Migrations;
+using System.Data.Entity.Validation;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<RecipesData.Context.RecipesContext>
+namespace RecipesData.Migrations
+{
+    internal sealed class Configuration : DbMigrationsConfiguration<Context.RecipesContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(RecipesData.Context.RecipesContext context)
+        protected override void Seed(Context.RecipesContext context)
         {
             //  This method will be called after migrating to the latest version.
 

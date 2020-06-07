@@ -8,12 +8,16 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Linq;
+using RecipesManager.Views;
 
 namespace RecipesManager.ViewModels
 {
+    /// <summary>
+    /// ViewModel for <see cref="AddCategoryView"/>
+    /// </summary>
     class AddIngredientViewModel : IViewAddIngredientViewModel, INotifyPropertyChanged
     {
-        private readonly IDbManager _dbManager;
+        private readonly IDbManager dbManager;
         private ObservableCollection<Ingredient> _items;
 
         private string _name;
@@ -29,7 +33,7 @@ namespace RecipesManager.ViewModels
 
         public AddIngredientViewModel(IDbManager dbManager, ObservableCollection<Ingredient> items)
         {
-            _dbManager = dbManager;
+            this.dbManager = dbManager;
             _items = items;
 
             AddIngredientCommand = new RelayCommand(AddIngredient);
@@ -37,6 +41,10 @@ namespace RecipesManager.ViewModels
 
         public ICommand AddIngredientCommand { get; set; }
         
+        /// <summary>
+        /// Adds a new ingredient to the database and updates the local collection
+        /// </summary>
+        /// <param name="obj"></param>
         private void AddIngredient(object obj)
         {
             // basic validation
@@ -59,12 +67,12 @@ namespace RecipesManager.ViewModels
             else
             {
                 // all good, add Ingredient
-                if (this._dbManager.AddItem(new RecipesData.Models.Ingredient { Name = Name }))
+                if (this.dbManager.AddItem(new RecipesData.Models.Ingredient { Name = Name }))
                 {
                     if (MessageBox.Show("Ingredient successfully added!", "Ingredient added", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK) == MessageBoxResult.OK)
                     {
                         // get ingredient added to database
-                        var cat = this._dbManager.ReadItem(new RecipesData.Models.Ingredient { Name = Name });
+                        var cat = this.dbManager.ReadItem(new RecipesData.Models.Ingredient { Name = Name });
 
                         // update collection in the view model
                         var IngredientAdded = new RecipesManager.Models.Ingredient

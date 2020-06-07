@@ -13,6 +13,9 @@ using RecipesManager.Commands;
 
 namespace RecipesManager.ViewModels
 {
+    /// <summary>
+    /// ViewModel for <see cref="CategoriesView"/>
+    /// </summary>
     class CategoriesViewModel : IViewCategoriesViewModel, INotifyPropertyChanged
     {
         private readonly IDbManager dbManager;
@@ -60,6 +63,10 @@ namespace RecipesManager.ViewModels
             UpdateCategoryCommand = new RelayCommand(UpdateCategory);
         }
 
+        /// <summary>
+        /// Creates a new instance of <see cref="AddCategoryView"/>
+        /// </summary>
+        /// <param name="obj"></param>
         private void OpenAddCategory(object obj)
         {
             var addCategoryVM = new AddCategoryViewModel(this.dbManager, Items);
@@ -68,6 +75,10 @@ namespace RecipesManager.ViewModels
             addCategoryView.Show();
         }
 
+        /// <summary>
+        /// Deletes a category from the database and updates the local collection
+        /// </summary>
+        /// <param name="obj"></param>
         private void DeleteCategory(object obj)
         {
             if (SelectedCategory != null)
@@ -82,6 +93,10 @@ namespace RecipesManager.ViewModels
             }
         }
 
+        /// <summary>
+        /// Updates a category in the database
+        /// </summary>
+        /// <param name="obj"></param>
         private void UpdateCategory(object obj)
         {
             if (SelectedCategory != null && !string.IsNullOrEmpty(SelectedCategory.Name) && !string.IsNullOrWhiteSpace(SelectedCategory.Name))
@@ -93,10 +108,6 @@ namespace RecipesManager.ViewModels
             }
         }
 
-        public ICommand AddCategoryCommand { get; set; }
-        public ICommand DeleteCategoryCommand { get; set; }
-        public ICommand UpdateCategoryCommand { get; set; }
-
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -106,42 +117,10 @@ namespace RecipesManager.ViewModels
         }
         #endregion
 
-        #region ICommand
-        private ICommand _mUpdater;
-
-
-        public ICommand UpdateCommand
-        {
-            get
-            {
-                if (_mUpdater == null)
-                {
-                    _mUpdater = new Updater();
-                }
-
-                return _mUpdater;
-            }
-
-            set
-            {
-                _mUpdater = value;
-            }
-        }
-
-        private class Updater : ICommand
-        {
-            public event EventHandler CanExecuteChanged;
-
-            public bool CanExecute(object parameter)
-            {
-                return true;
-            }
-
-            public void Execute(object parameter)
-            {
-                MessageBox.Show($"Executing parameter: {parameter}");
-            }
-        }
+        #region Commands
+        public ICommand AddCategoryCommand { get; set; }
+        public ICommand DeleteCategoryCommand { get; set; }
+        public ICommand UpdateCategoryCommand { get; set; }
         #endregion
 
     }

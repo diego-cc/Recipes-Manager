@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RecipesData.Models
 {
+    /// <summary>
+    /// Category entity
+    /// </summary>
     public class Category : ModelBase
     {
         [Key]

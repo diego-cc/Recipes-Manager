@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace RecipesData.Context
 {
+    /// <summary>
+    /// Context used by the main application (<see cref="RecipesManager"/>)
+    /// </summary>
     public class RecipesContext : DbContext, IRecipesContext
     {
         public virtual DbSet<Ingredient> Ingredients { get; set; }

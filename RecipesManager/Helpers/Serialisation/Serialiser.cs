@@ -8,6 +8,10 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace RecipesManager.Helpers.Serialisation
 {
+    /// <summary>
+    /// Serialises collections of models
+    /// <para>Only binary output is supported for now</para>
+    /// </summary>
     public class Serialiser
     {
         public string FileName { get; set; }
@@ -43,6 +47,11 @@ namespace RecipesManager.Helpers.Serialisation
             this.ingredientQuantities = iq;
         }
 
+        /// <summary>
+        /// Starts the serialisation process
+        /// <para>If no filename is provided, the data will be saved as "serialised.bin" in the bin/Debug directory</para>
+        /// </summary>
+        /// <returns>Result of the operation</returns>
         public bool Serialise()
         {
             Stream stream;
@@ -57,6 +66,7 @@ namespace RecipesManager.Helpers.Serialisation
                 stream = File.Open(FileName, FileMode.Create);
                 BinaryFormatter b = new BinaryFormatter();
 
+                // Merge all models into a single list of objects
                 List<object> merged = recipes.Cast<object>().Concat(ingredientQuantities.Cast<object>().ToList()).Concat(ingredients.Cast<object>().ToList()).Concat(categories.Cast<object>().ToList()).ToList();
 
                 b.Serialize(stream, merged);

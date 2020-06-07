@@ -1,20 +1,22 @@
-﻿using RecipesData.Models;
-using RecipesData.Setup;
+﻿using RecipesData.Setup;
 using RecipesManager.Commands;
 using RecipesManager.ViewModels.Services;
-using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
+using RecipesManager.Views;
 
 namespace RecipesManager.ViewModels
 {
+    /// <summary>
+    /// ViewModel for <see cref="AddCategoryView"/>
+    /// </summary>
     class AddCategoryViewModel : IViewAddCategoryViewModel, INotifyPropertyChanged
     {
-        private ObservableCollection<RecipesManager.Models.Category> categories;
+        private ObservableCollection<Models.Category> categories;
 
         private string _name;
         public string Name
@@ -27,11 +29,11 @@ namespace RecipesManager.ViewModels
             }
         }
 
-        private readonly IDbManager _dbManager;
+        private readonly IDbManager dbManager;
 
-        public AddCategoryViewModel(IDbManager dbManager, ObservableCollection<RecipesManager.Models.Category> categories)
+        public AddCategoryViewModel(IDbManager dbManager, ObservableCollection<Models.Category> categories)
         {
-            _dbManager = dbManager;
+            this.dbManager = dbManager;
             this.categories = categories;
 
             AddCategoryCommand = new RelayCommand(AddCategory);
@@ -50,7 +52,11 @@ namespace RecipesManager.ViewModels
             return !string.IsNullOrEmpty(Name) && !string.IsNullOrWhiteSpace(Name);
         }
 
-        private void AddCategory(object obj)
+        /// <summary>
+        /// Adds a new category to the database and updates the local collection
+        /// </summary>
+        /// <param name="obj"></param>
+        public void AddCategory(object obj)
         {
             // basic validation
             if (string.IsNullOrEmpty(Name) || string.IsNullOrWhiteSpace(Name))
@@ -74,12 +80,12 @@ namespace RecipesManager.ViewModels
             else
             {
                 // all good, add category
-                if (this._dbManager.AddItem(new RecipesData.Models.Category { Name = Name }))
+                if (this.dbManager.AddItem(new RecipesData.Models.Category { Name = Name }))
                 {
                     if (MessageBox.Show("Category successfully added!", "Category added", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK) == MessageBoxResult.OK)
                     {
                         // get category added to database
-                        var cat = this._dbManager.ReadItem(new RecipesData.Models.Category { Name = Name });
+                        var cat = this.dbManager.ReadItem(new RecipesData.Models.Category { Name = Name });
 
                         // update collection in the view model
                         var categoryAdded = new RecipesManager.Models.Category

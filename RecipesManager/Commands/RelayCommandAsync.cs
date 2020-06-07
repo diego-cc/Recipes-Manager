@@ -5,6 +5,9 @@ using System.Windows.Input;
 
 namespace RecipesManager.Commands
 {
+    /// <summary>
+    /// Async version of <see cref="RelayCommand"/>
+    /// </summary>
     class RelayCommandAsync : IAsyncCommand
     {
         public event EventHandler CanExecuteChanged;

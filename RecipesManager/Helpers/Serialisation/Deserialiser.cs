@@ -10,6 +10,10 @@ using System.Threading.Tasks;
 
 namespace RecipesManager.Helpers.Serialisation
 {
+    /// <summary>
+    /// Manages deserialisations
+    /// <para>Currently only supports from binary to collections of models</para>
+    /// </summary>
     class Deserialiser
     {
         public string FileName { get; set; }
@@ -27,6 +31,11 @@ namespace RecipesManager.Helpers.Serialisation
             FileName = fileName;
         }
 
+        /// <summary>
+        /// Starts the deserialisation process. It is assumed that a valid file path is provided.
+        /// <para>Maps raw binary data to entities</para>
+        /// </summary>
+        /// <returns>Result of the operation</returns>
         public bool Deserialise()
         {
             Stream stream;

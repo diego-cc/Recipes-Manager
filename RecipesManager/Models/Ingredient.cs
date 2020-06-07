@@ -6,6 +6,9 @@ using System.Runtime.Serialization;
 
 namespace RecipesManager.Models
 {
+    /// <summary>
+    /// Ingredient model class, based on <see cref="RecipesData.Models.Ingredient"/>
+    /// </summary>
     [Serializable()]
     class Ingredient : INotifyPropertyChanged, IEquatable<Ingredient>, ISerializable
     {
