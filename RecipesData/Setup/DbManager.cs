@@ -15,7 +15,7 @@ namespace RecipesData.Setup
     /// </summary>
     public class DbManager : IDbManager
     {
-        public RecipesContext RecipesContext
+        public IRecipesContext RecipesContext
         {
             get => _recipesContext;
             set
@@ -23,176 +23,363 @@ namespace RecipesData.Setup
                 _recipesContext = value;
             }
         }
-        private RecipesContext _recipesContext;
+
+        private IRecipesContext _recipesContext;
+
+        /// <summary>
+        /// Constructor for testing purposes
+        /// </summary>
+        /// <param name="recipesContext"></param>
+        public DbManager(IRecipesContext recipesContext)
+        {
+            RecipesContext = recipesContext;
+        }
+
+        public DbManager() { }
 
         public bool AddItem(object item)
         {
             if (item == null) return false;
 
-            using (_recipesContext = new RecipesContext())
+            if (_recipesContext is RecipesContext)
             {
-                try
+                using (var ctx = new RecipesContext())
                 {
-                    switch (item)
+                    try
                     {
-                        case Category c:
-                            _recipesContext.Entry(c).State = EntityState.Added;
-                            break;
+                        switch (item)
+                        {
+                            case Category c:
+                                ctx.Entry(c).State = EntityState.Added;
+                                break;
 
-                        case Ingredient i:
-                            _recipesContext.Entry(i).State = EntityState.Added;
-                            break;
+                            case Ingredient i:
+                                ctx.Entry(i).State = EntityState.Added;
+                                break;
 
-                        case Recipe r:
-                            _recipesContext.Entry(r).State = EntityState.Added;
-                            break;
+                            case Recipe r:
+                                ctx.Entry(r).State = EntityState.Added;
+                                break;
 
-                        case IngredientQuantity iq:
-                            _recipesContext.Entry(iq).State = EntityState.Added;
-                            break;
+                            case IngredientQuantity iq:
+                                ctx.Entry(iq).State = EntityState.Added;
+                                break;
 
-                        default:
-                            Console.WriteLine("Could not add new item: invalid object type");
-                            return false;
+                            default:
+                                Console.WriteLine("Could not add new item: invalid object type");
+                                return false;
+                        }
+                        ctx.SaveChanges();
+                        return true;
                     }
-                    _recipesContext.SaveChanges();
-                    return true;
-                }
-                catch (DbUpdateConcurrencyException ex)
-                {
-                    Console.WriteLine("Could not add new item: concurrency issues");
-                    Console.WriteLine(ex.Message);
+                    catch (DbUpdateConcurrencyException ex)
+                    {
+                        Console.WriteLine("Could not add new item: concurrency issues");
+                        Console.WriteLine(ex.Message);
 
-                    return false;
-                }
-                catch (SqlException ex)
-                {
-                    Console.WriteLine("Could not add new item: SQL errors");
-                    Console.WriteLine(ex.Message);
+                        return false;
+                    }
+                    catch (SqlException ex)
+                    {
+                        Console.WriteLine("Could not add new item: SQL errors");
+                        Console.WriteLine(ex.Message);
 
-                    return false;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Could not add new item");
-                    Console.WriteLine(ex.Message);
-                    Console.WriteLine("\n");
-                    Console.WriteLine(ex.InnerException);
-                    Console.WriteLine("\n");
-                    Console.WriteLine(ex.StackTrace);
+                        return false;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Could not add new item");
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine("\n");
+                        Console.WriteLine(ex.InnerException);
+                        Console.WriteLine("\n");
+                        Console.WriteLine(ex.StackTrace);
 
-                    return false;
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                using (var ctx = new RecipesTestContext())
+                {
+                    try
+                    {
+                        switch (item)
+                        {
+                            case Category c:
+                                ctx.Entry(c).State = EntityState.Added;
+                                break;
+
+                            case Ingredient i:
+                                ctx.Entry(i).State = EntityState.Added;
+                                break;
+
+                            case Recipe r:
+                                ctx.Entry(r).State = EntityState.Added;
+                                break;
+
+                            case IngredientQuantity iq:
+                                ctx.Entry(iq).State = EntityState.Added;
+                                break;
+
+                            default:
+                                Console.WriteLine("Could not add new item: invalid object type");
+                                return false;
+                        }
+                        ctx.SaveChanges();
+                        return true;
+                    }
+                    catch (DbUpdateConcurrencyException ex)
+                    {
+                        Console.WriteLine("Could not add new item: concurrency issues");
+                        Console.WriteLine(ex.Message);
+
+                        return false;
+                    }
+                    catch (SqlException ex)
+                    {
+                        Console.WriteLine("Could not add new item: SQL errors");
+                        Console.WriteLine(ex.Message);
+
+                        return false;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Could not add new item");
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine("\n");
+                        Console.WriteLine(ex.InnerException);
+                        Console.WriteLine("\n");
+                        Console.WriteLine(ex.StackTrace);
+
+                        return false;
+                    }
                 }
             }
         }
 
         public object[] BrowseItems(Type entityType)
         {
-            using (_recipesContext = new RecipesContext())
+            if (_recipesContext is RecipesContext)
             {
-                try
+                using (var ctx = new RecipesContext())
                 {
-                    switch (entityType.Name)
+                    try
                     {
-                        case "Category":
-                            return _recipesContext.Categories.ToArray();
+                        switch (entityType.Name)
+                        {
+                            case "Category":
+                                return ctx.Categories.ToArray();
 
-                        case "Ingredient":
-                            return _recipesContext.Ingredients.ToArray();
+                            case "Ingredient":
+                                return ctx.Ingredients.ToArray();
 
-                        case "Recipe":
-                            return _recipesContext.Recipes.Include(m => m.Category).ToArray();
+                            case "Recipe":
+                                return ctx.Recipes.Include(m => m.Category).ToArray();
 
-                        case "IngredientQuantity":
-                            return _recipesContext
-                                        .IngredientQuantities
-                                        .Include(m => m.Ingredient)
-                                        .Include(m => m.Recipe)
-                                        .ToArray();
+                            case "IngredientQuantity":
+                                return ctx
+                                            .IngredientQuantities
+                                            .Include(m => m.Ingredient)
+                                            .Include(m => m.Recipe)
+                                            .ToArray();
 
-                        default:
-                            Console.WriteLine("Could not browse items: invalid object type");
-                            return new object[] { };
+                            default:
+                                Console.WriteLine("Could not browse items: invalid object type");
+                                return new object[] { };
+                        }
+                    }
+                    catch (DbUpdateConcurrencyException ex)
+                    {
+                        Console.WriteLine("Could not browse items: concurrency issues");
+                        Console.WriteLine(ex.Message);
+
+                        return new object[] { };
+                    }
+                    catch (SqlException ex)
+                    {
+                        Console.WriteLine("Could not browse items: SQL errors");
+                        Console.WriteLine(ex.Message);
+
+                        return new object[] { };
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Could not browse items");
+                        Console.WriteLine(ex.Message);
+
+                        return new object[] { };
                     }
                 }
-                catch (DbUpdateConcurrencyException ex)
+            }
+            else
+            {
+                using (var ctx = new RecipesTestContext())
                 {
-                    Console.WriteLine("Could not browse items: concurrency issues");
-                    Console.WriteLine(ex.Message);
+                    try
+                    {
+                        switch (entityType.Name)
+                        {
+                            case "Category":
+                                return ctx.Categories.ToArray();
 
-                    return new object[] { };
-                }
-                catch (SqlException ex)
-                {
-                    Console.WriteLine("Could not browse items: SQL errors");
-                    Console.WriteLine(ex.Message);
+                            case "Ingredient":
+                                return ctx.Ingredients.ToArray();
 
-                    return new object[] { };
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Could not browse items");
-                    Console.WriteLine(ex.Message);
+                            case "Recipe":
+                                return ctx.Recipes.Include(m => m.Category).ToArray();
 
-                    return new object[] { };
+                            case "IngredientQuantity":
+                                return ctx
+                                            .IngredientQuantities
+                                            .Include(m => m.Ingredient)
+                                            .Include(m => m.Recipe)
+                                            .ToArray();
+
+                            default:
+                                Console.WriteLine("Could not browse items: invalid object type");
+                                return new object[] { };
+                        }
+                    }
+                    catch (DbUpdateConcurrencyException ex)
+                    {
+                        Console.WriteLine("Could not browse items: concurrency issues");
+                        Console.WriteLine(ex.Message);
+
+                        return new object[] { };
+                    }
+                    catch (SqlException ex)
+                    {
+                        Console.WriteLine("Could not browse items: SQL errors");
+                        Console.WriteLine(ex.Message);
+
+                        return new object[] { };
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Could not browse items");
+                        Console.WriteLine(ex.Message);
+
+                        return new object[] { };
+                    }
                 }
             }
+            
         }
 
         public bool DeleteItem(object item)
         {
             if (item == null) return false;
 
-            using (_recipesContext = new RecipesContext())
+            if (_recipesContext is RecipesContext)
             {
-                try
+                using (var ctx = new RecipesContext())
                 {
-                    switch (item)
+                    try
                     {
-                        case Category c:
-                            _recipesContext.Entry(c).State = EntityState.Deleted;
-                            break;
+                        switch (item)
+                        {
+                            case Category c:
+                                ctx.Entry(c).State = EntityState.Deleted;
+                                break;
 
-                        case Ingredient i:
-                            _recipesContext.Entry(i).State = EntityState.Deleted;
-                            break;
+                            case Ingredient i:
+                                ctx.Entry(i).State = EntityState.Deleted;
+                                break;
 
-                        case Recipe r:
-                            _recipesContext.Entry(r).State = EntityState.Deleted;
-                            break;
+                            case Recipe r:
+                                ctx.Entry(r).State = EntityState.Deleted;
+                                break;
 
-                        case IngredientQuantity iq:
-                            _recipesContext.Entry(iq).State = EntityState.Deleted;
-                            break;
+                            case IngredientQuantity iq:
+                                ctx.Entry(iq).State = EntityState.Deleted;
+                                break;
 
-                        default:
-                            Console.WriteLine("Could not add new item: invalid object type");
-                            return false;
+                            default:
+                                Console.WriteLine("Could not add new item: invalid object type");
+                                return false;
+                        }
+
+                        ctx.SaveChanges();
+                        return true;
                     }
+                    catch (DbUpdateConcurrencyException ex)
+                    {
+                        Console.WriteLine("Could not delete item: concurrency issues");
+                        Console.WriteLine(ex.Message);
 
-                    _recipesContext.SaveChanges();
-                    return true;
+                        return false;
+                    }
+                    catch (SqlException ex)
+                    {
+                        Console.WriteLine("Could not delete item: SQL errors");
+                        Console.WriteLine(ex.Message);
+
+                        return false;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Could not delete item");
+                        Console.WriteLine(ex.Message);
+
+                        return false;
+                    }
                 }
-                catch (DbUpdateConcurrencyException ex)
+            }
+            else
+            {
+                using (var ctx = new RecipesTestContext())
                 {
-                    Console.WriteLine("Could not delete item: concurrency issues");
-                    Console.WriteLine(ex.Message);
+                    try
+                    {
+                        switch (item)
+                        {
+                            case Category c:
+                                ctx.Entry(c).State = EntityState.Deleted;
+                                break;
 
-                    return false;
-                }
-                catch (SqlException ex)
-                {
-                    Console.WriteLine("Could not delete item: SQL errors");
-                    Console.WriteLine(ex.Message);
+                            case Ingredient i:
+                                ctx.Entry(i).State = EntityState.Deleted;
+                                break;
 
-                    return false;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Could not delete item");
-                    Console.WriteLine(ex.Message);
+                            case Recipe r:
+                                ctx.Entry(r).State = EntityState.Deleted;
+                                break;
 
-                    return false;
+                            case IngredientQuantity iq:
+                                ctx.Entry(iq).State = EntityState.Deleted;
+                                break;
+
+                            default:
+                                Console.WriteLine("Could not add new item: invalid object type");
+                                return false;
+                        }
+
+                        ctx.SaveChanges();
+                        return true;
+                    }
+                    catch (DbUpdateConcurrencyException ex)
+                    {
+                        Console.WriteLine("Could not delete item: concurrency issues");
+                        Console.WriteLine(ex.Message);
+
+                        return false;
+                    }
+                    catch (SqlException ex)
+                    {
+                        Console.WriteLine("Could not delete item: SQL errors");
+                        Console.WriteLine(ex.Message);
+
+                        return false;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Could not delete item");
+                        Console.WriteLine(ex.Message);
+
+                        return false;
+                    }
                 }
             }
         }
@@ -201,58 +388,117 @@ namespace RecipesData.Setup
         {
             if (item == null) return false;
 
-            using (_recipesContext = new RecipesContext())
+            if (_recipesContext is RecipesContext)
             {
-                try
+                using (var ctx = new RecipesContext())
                 {
-                    switch (item)
+                    try
                     {
-                        case Category c:
-                            _recipesContext.Entry(c).State = EntityState.Modified;
-                            break;
+                        switch (item)
+                        {
+                            case Category c:
+                                ctx.Entry(c).State = EntityState.Modified;
+                                break;
 
-                        case Ingredient i:
-                            _recipesContext.Entry(i).State = EntityState.Modified;
-                            break;
+                            case Ingredient i:
+                                ctx.Entry(i).State = EntityState.Modified;
+                                break;
 
-                        case Recipe r:
-                            _recipesContext.Entry(r).State = EntityState.Modified;
-                            break;
+                            case Recipe r:
+                                ctx.Entry(r).State = EntityState.Modified;
+                                break;
 
-                        case IngredientQuantity iq:
-                            _recipesContext.Entry(iq).State = EntityState.Modified;
-                            break;
+                            case IngredientQuantity iq:
+                                ctx.Entry(iq).State = EntityState.Modified;
+                                break;
 
-                        default:
-                            Console.WriteLine("Could not edit item: invalid object type");
-                            return false;
+                            default:
+                                Console.WriteLine("Could not edit item: invalid object type");
+                                return false;
+                        }
+
+                        ctx.SaveChanges();
+                        return true;
                     }
+                    catch (DbUpdateConcurrencyException ex)
+                    {
+                        Console.WriteLine("Could not edit item: concurrency issues");
+                        Console.WriteLine(ex.Message);
 
-                    _recipesContext.SaveChanges();
-                    return true;
-                }
-                catch (DbUpdateConcurrencyException ex)
-                {
-                    Console.WriteLine("Could not edit item: concurrency issues");
-                    Console.WriteLine(ex.Message);
+                        return false;
+                    }
+                    catch (SqlException ex)
+                    {
+                        Console.WriteLine("Could not edit item: SQL errors");
+                        Console.WriteLine(ex.Message);
 
-                    return false;
-                }
-                catch (SqlException ex)
-                {
-                    Console.WriteLine("Could not edit item: SQL errors");
-                    Console.WriteLine(ex.Message);
+                        return false;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Could not edit item");
+                        Console.WriteLine(ex.Message);
 
-                    return false;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Could not edit item");
-                    Console.WriteLine(ex.Message);
-
-                    return false;
+                        return false;
+                    }
                 }
             }
+            else
+            {
+                using (var ctx = new RecipesTestContext())
+                {
+                    try
+                    {
+                        switch (item)
+                        {
+                            case Category c:
+                                ctx.Entry(c).State = EntityState.Modified;
+                                break;
+
+                            case Ingredient i:
+                                ctx.Entry(i).State = EntityState.Modified;
+                                break;
+
+                            case Recipe r:
+                                ctx.Entry(r).State = EntityState.Modified;
+                                break;
+
+                            case IngredientQuantity iq:
+                                ctx.Entry(iq).State = EntityState.Modified;
+                                break;
+
+                            default:
+                                Console.WriteLine("Could not edit item: invalid object type");
+                                return false;
+                        }
+
+                        ctx.SaveChanges();
+                        return true;
+                    }
+                    catch (DbUpdateConcurrencyException ex)
+                    {
+                        Console.WriteLine("Could not edit item: concurrency issues");
+                        Console.WriteLine(ex.Message);
+
+                        return false;
+                    }
+                    catch (SqlException ex)
+                    {
+                        Console.WriteLine("Could not edit item: SQL errors");
+                        Console.WriteLine(ex.Message);
+
+                        return false;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Could not edit item");
+                        Console.WriteLine(ex.Message);
+
+                        return false;
+                    }
+                }
+            }
+            
         }
 
         public object ReadItem(object item)
@@ -325,86 +571,135 @@ namespace RecipesData.Setup
 
         public void ResetDatabaseState()
         {
-            using (_recipesContext = new RecipesContext())
+            if (_recipesContext is RecipesContext)
             {
-                try
+                using (var ctx = new RecipesContext())
                 {
-                    _recipesContext.Database.ExecuteSqlCommand("DELETE FROM Recipes");
-                    _recipesContext.Database.ExecuteSqlCommand("DELETE FROM IngredientQuantities");
+                    try
+                    {
+                        ctx.Database.ExecuteSqlCommand("DELETE FROM Recipes");
+                        ctx.Database.ExecuteSqlCommand("DELETE FROM IngredientQuantities");
 
-                    _recipesContext.SaveChanges();
+                        ctx.SaveChanges();
 
-                    _recipesContext.Database.ExecuteSqlCommand("DELETE FROM Categories");
-                    _recipesContext.Database.ExecuteSqlCommand("DELETE FROM Ingredients");
+                        ctx.Database.ExecuteSqlCommand("DELETE FROM Categories");
+                        ctx.Database.ExecuteSqlCommand("DELETE FROM Ingredients");
 
-                    _recipesContext.SaveChanges();
+                        ctx.SaveChanges();
+                    }
+                    catch (NullReferenceException e)
+                    {
+                        Console.WriteLine("Could not reset database state: recipesContext was null.");
+                        Console.WriteLine(e.Message);
+                    }
+                    catch (SqlException e)
+                    {
+                        Console.WriteLine("Could not reset database state: SQL error");
+                        Console.WriteLine(e.Message);
+                    }
+                    catch (DbUpdateConcurrencyException e)
+                    {
+                        Console.WriteLine("Could not reset database state: unable to save changes due to concurrency issues.");
+                        Console.WriteLine(e.Message);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Could not reset database state");
+                        Console.WriteLine(e);
+                    }
                 }
-                catch (NullReferenceException e)
+            }
+            else
+            {
+                using (var ctx = new RecipesTestContext())
                 {
-                    Console.WriteLine("Could not reset database state: recipesContext was null.");
-                    Console.WriteLine(e.Message);
-                }
-                catch (SqlException e)
-                {
-                    Console.WriteLine("Could not reset database state: SQL error");
-                    Console.WriteLine(e.Message);
-                }
-                catch (DbUpdateConcurrencyException e)
-                {
-                    Console.WriteLine("Could not reset database state: unable to save changes due to concurrency issues.");
-                    Console.WriteLine(e.Message);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Could not reset database state");
-                    Console.WriteLine(e);
+                    try
+                    {
+                        ctx.Database.ExecuteSqlCommand("DELETE FROM Recipes");
+                        ctx.Database.ExecuteSqlCommand("DELETE FROM IngredientQuantities");
+
+                        ctx.SaveChanges();
+
+                        ctx.Database.ExecuteSqlCommand("DELETE FROM Categories");
+                        ctx.Database.ExecuteSqlCommand("DELETE FROM Ingredients");
+
+                        ctx.SaveChanges();
+                    }
+                    catch (NullReferenceException e)
+                    {
+                        Console.WriteLine("Could not reset database state: recipesContext was null.");
+                        Console.WriteLine(e.Message);
+                    }
+                    catch (SqlException e)
+                    {
+                        Console.WriteLine("Could not reset database state: SQL error");
+                        Console.WriteLine(e.Message);
+                    }
+                    catch (DbUpdateConcurrencyException e)
+                    {
+                        Console.WriteLine("Could not reset database state: unable to save changes due to concurrency issues.");
+                        Console.WriteLine(e.Message);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Could not reset database state");
+                        Console.WriteLine(e);
+                    }
                 }
             }
         }
 
         public void SeedDatabase(string seedDataPath)
         {
-            using (_recipesContext = new RecipesContext())
+            if (_recipesContext is RecipesContext)
             {
-                try
+                using (var ctx = new RecipesContext())
                 {
-                    // Read SeedData.sql file
-                    string seedData = File.ReadAllText(seedDataPath);
+                    try
+                    {
+                        // Read SeedData.sql file
+                        string seedData = File.ReadAllText(seedDataPath);
 
-                    _recipesContext.Database.ExecuteSqlCommand(seedData);
-                    _recipesContext.SaveChanges();
-                }
-                catch (FileNotFoundException e)
-                {
-                    Console.WriteLine("SeedData.sql was not found");
-                    Console.WriteLine(e.Message);
-                }
-                catch (DirectoryNotFoundException e)
-                {
-                    Console.WriteLine("Database directory was not found");
-                    Console.WriteLine(e.Message);
-                }
-                catch (IOException e)
-                {
-                    Console.WriteLine("Could not read seed data sql file");
-                    Console.WriteLine(e.Message);
-                }
-                catch (SqlException e)
-                {
-                    Console.WriteLine("SQL error");
-                    Console.WriteLine(e.Message);
-                }
-                catch (DbUpdateConcurrencyException e)
-                {
-                    Console.WriteLine("Could not seed data: unable to save changes due to concurrency issues.");
-                    Console.WriteLine(e.Message);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Could not seed data");
-                    Console.WriteLine(e.Message);
+                        ctx.Database.ExecuteSqlCommand(seedData);
+                        ctx.SaveChanges();
+                    }
+                    catch (FileNotFoundException e)
+                    {
+                        Console.WriteLine("SeedData.sql was not found");
+                        Console.WriteLine(e.Message);
+                    }
+                    catch (DirectoryNotFoundException e)
+                    {
+                        Console.WriteLine("Database directory was not found");
+                        Console.WriteLine(e.Message);
+                    }
+                    catch (IOException e)
+                    {
+                        Console.WriteLine("Could not read seed data sql file");
+                        Console.WriteLine(e.Message);
+                    }
+                    catch (SqlException e)
+                    {
+                        Console.WriteLine("SQL error");
+                        Console.WriteLine(e.Message);
+                    }
+                    catch (DbUpdateConcurrencyException e)
+                    {
+                        Console.WriteLine("Could not seed data: unable to save changes due to concurrency issues.");
+                        Console.WriteLine(e.Message);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Could not seed data");
+                        Console.WriteLine(e.Message);
+                    }
                 }
             }
+            else
+            {
+
+            }
+            
         }
 
         public async Task<object[]> BrowseItemsAsync(Type entityType)

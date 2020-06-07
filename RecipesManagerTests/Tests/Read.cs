@@ -1,14 +1,31 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using RecipesData.Context;
 using RecipesData.Models;
 using RecipesData.Setup;
+using System.Data.Entity;
 using System.IO;
 
 namespace RecipesManagerTests
 {
+    /// <summary>
+    /// Contains unit tests for <see cref="DbManager.ReadItem(object)"/>
+    /// </summary>
     [TestClass]
     public class Read
     {
-        private IDbManager _dbManager;
+        private DbManager dbManager;
+
+        public Read()
+        {
+            var mockSet = new Mock<DbSet<Category>>();
+            var mockContext = new Mock<RecipesTestContext>();
+
+            mockContext.Setup(m => m.Categories).Returns(mockSet.Object);
+
+            dbManager = new DbManager(mockContext.Object);
+            dbManager.ResetDatabaseState();
+        }
 
         /// <summary>
         /// Reset database state after each test
@@ -16,7 +33,7 @@ namespace RecipesManagerTests
         [TestCleanup]
         public void TestCleanup()
         {
-            _dbManager.ResetDatabaseState();
+            dbManager.ResetDatabaseState();
         }
 
         /// <summary>
@@ -25,9 +42,9 @@ namespace RecipesManagerTests
         [TestInitialize]
         public void TestInitialize()
         {
-            _dbManager = new DbManager();
+            dbManager = new DbManager();
 
-            _dbManager.SeedDatabase(
+            dbManager.SeedDatabase(
                    Path.GetFullPath(Path.Combine("../", "../", "../", "Database", "SeedData.sql"))
                    );
         }
@@ -38,7 +55,7 @@ namespace RecipesManagerTests
         [TestMethod]
         public void ReadCategory()
         {
-            var record = _dbManager.ReadItem(new Category { Id = 6 });
+            var record = dbManager.ReadItem(new Category { Id = 6 });
 
             if (record != null)
             {
@@ -54,7 +71,7 @@ namespace RecipesManagerTests
         [TestMethod]
         public void ReadIngredient()
         {
-            var record = _dbManager.ReadItem(new Ingredient { Id = 34 });
+            var record = dbManager.ReadItem(new Ingredient { Id = 34 });
 
             if (record != null)
             {
@@ -70,7 +87,7 @@ namespace RecipesManagerTests
         [TestMethod]
         public void ReadRecipe()
         {
-            var record = _dbManager.ReadItem(new Recipe { Id = 2 });
+            var record = dbManager.ReadItem(new Recipe { Id = 2 });
 
             if (record != null)
             {
@@ -92,7 +109,7 @@ namespace RecipesManagerTests
         [TestMethod]
         public void ReadIngredientQuantity()
         {
-            var record = _dbManager.ReadItem(new IngredientQuantity { Id = 1 });
+            var record = dbManager.ReadItem(new IngredientQuantity { Id = 1 });
 
             if (record != null)
             {

@@ -1,25 +1,41 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using RecipesData.Context;
 using RecipesData.Models;
 using RecipesData.Setup;
+using System.Data.Entity;
 
 namespace RecipesManagerTests
 {
+    /// <summary>
+    /// Contains unit tests for <see cref="DbManager.AddItem(object)"/>
+    /// </summary>
     [TestClass]
     public class Add
     {
-        private IDbManager _dbManager;
+        private DbManager dbManager;
+
+        public Add()
+        {
+            var mockSet = new Mock<DbSet<Category>>();
+            var mockContext = new Mock<RecipesTestContext>();
+
+            mockContext.Setup(m => m.Categories).Returns(mockSet.Object);
+
+            dbManager = new DbManager(mockContext.Object);
+            dbManager.ResetDatabaseState();
+        }
 
         [TestInitialize]
         public void TestInitialize()
         {
-            _dbManager = new DbManager();
         }
         
         // Reset database state after each test
         [TestCleanup]
         public void TestCleanup()
-        {            
-            _dbManager.ResetDatabaseState();
+        {
+            dbManager.ResetDatabaseState();
         }
 
         /// <summary>
@@ -34,9 +50,9 @@ namespace RecipesManagerTests
                 Name = "main"
             };
 
-            var itemAdded = _dbManager.AddItem(category);
+            var categoryAdded = dbManager.AddItem(category);
 
-            Assert.IsTrue(itemAdded);
+            Assert.IsTrue(categoryAdded);
         }
 
         /// <summary>
@@ -51,9 +67,9 @@ namespace RecipesManagerTests
                 Name = "whiting"
             };
 
-            var ingredientAdded = _dbManager.AddItem(ingredient);
+            var ingredientAdded = dbManager.AddItem(ingredient);
 
-            Assert.IsTrue(ingredientAdded);            
+            Assert.IsTrue(ingredientAdded);
         }
 
         /// <summary>
@@ -68,7 +84,7 @@ namespace RecipesManagerTests
                 Name = "dessert"
             };
 
-            if (_dbManager.AddItem(category))
+            if (dbManager.AddItem(category))
             {
                 var recipe = new Recipe
                 {
@@ -77,10 +93,10 @@ namespace RecipesManagerTests
                     CategoryId = category.Id
                 };
 
-                var recipeAdded = _dbManager.AddItem(recipe);
+                var recipeAdded = dbManager.AddItem(recipe);
 
                 Assert.IsTrue(recipeAdded);
-            }           
+            }
         }
 
         /// <summary>
@@ -95,7 +111,7 @@ namespace RecipesManagerTests
                 Name = "thyme"
             };
 
-            if (_dbManager.AddItem(thyme))
+            if (dbManager.AddItem(thyme))
             {
                 var salad = new Category
                 {
@@ -103,7 +119,7 @@ namespace RecipesManagerTests
                     Name = "salad"
                 };
 
-                if (_dbManager.AddItem(salad))
+                if (dbManager.AddItem(salad))
                 {
                     var ltd = new Recipe
                     {
@@ -112,7 +128,7 @@ namespace RecipesManagerTests
                         CategoryId = salad.Id
                     };
 
-                    if (_dbManager.AddItem(ltd))
+                    if (dbManager.AddItem(ltd))
                     {
                         var iq = new IngredientQuantity
                         {
@@ -122,7 +138,7 @@ namespace RecipesManagerTests
                             Quantity = "10 leaves"
                         };
 
-                        var iqAdded = _dbManager.AddItem(iq);
+                        var iqAdded = dbManager.AddItem(iq);
 
                         Assert.IsTrue(iqAdded);
                     }

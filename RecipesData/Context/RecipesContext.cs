@@ -8,10 +8,12 @@ namespace RecipesData.Context
 {
     public class RecipesContext : DbContext, IRecipesContext
     {
-        public DbSet<Ingredient> Ingredients { get; set; }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<IngredientQuantity> IngredientQuantities { get; set; }
-        public DbSet<Recipe> Recipes { get; set; }
+        public virtual DbSet<Ingredient> Ingredients { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<IngredientQuantity> IngredientQuantities { get; set; }
+        public virtual DbSet<Recipe> Recipes { get; set; }
+
+        public RecipesContext() { }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         { 

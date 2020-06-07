@@ -3,12 +3,15 @@ using System.Data.Entity;
 
 namespace RecipesData.Context
 {
+    /// <summary>
+    /// Only used in unit tests. It prevents the database from auto-generating primary keys for more control over them.
+    /// </summary>
     public class RecipesTestContext : DbContext, IRecipesContext
     {
-        public DbSet<Ingredient> Ingredients { get; set; }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<IngredientQuantity> IngredientQuantities { get; set; }
-        public DbSet<Recipe> Recipes { get; set; }
+        public virtual DbSet<Ingredient> Ingredients { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<IngredientQuantity> IngredientQuantities { get; set; }
+        public virtual DbSet<Recipe> Recipes { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

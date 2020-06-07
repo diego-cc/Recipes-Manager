@@ -1,14 +1,31 @@
-﻿using System.IO;
+﻿using System.Data.Entity;
+using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using RecipesData.Context;
 using RecipesData.Models;
 using RecipesData.Setup;
 
 namespace RecipesManagerTests
 {
+    /// <summary>
+    /// Contains unit tests for <see cref="DbManager.DeleteItem(object)"/>
+    /// </summary>
     [TestClass]
     public class Delete
     {
-        private IDbManager _dbManager;
+        private DbManager dbManager;
+
+        public Delete()
+        {
+            var mockSet = new Mock<DbSet<Category>>();
+            var mockContext = new Mock<RecipesTestContext>();
+
+            mockContext.Setup(m => m.Categories).Returns(mockSet.Object);
+
+            dbManager = new DbManager(mockContext.Object);
+            dbManager.ResetDatabaseState();
+        }
 
         /// <summary>
         /// Reset database state after each test
@@ -16,7 +33,7 @@ namespace RecipesManagerTests
         [TestCleanup]
         public void TestCleanup()
         {
-            _dbManager.ResetDatabaseState();
+            dbManager.ResetDatabaseState();
         }
 
         /// <summary>
@@ -25,9 +42,7 @@ namespace RecipesManagerTests
         [TestInitialize]
         public void TestInitialize()
         {
-            _dbManager = new DbManager();
-
-            _dbManager.SeedDatabase(
+            dbManager.SeedDatabase(
                    Path.GetFullPath(Path.Combine("../", "../", "../", "Database", "SeedData.sql"))
                    );
         }
@@ -38,13 +53,13 @@ namespace RecipesManagerTests
         [TestMethod]
         public void DeleteCategory()
         {
-            var previousNumOfRecords = _dbManager.BrowseItems(typeof(Category)).Length;
+            var previousNumOfRecords = dbManager.BrowseItems(typeof(Category)).Length;
 
-            var categoryDeleted = _dbManager.DeleteItem(new Category { Id = 1 });
+            var categoryDeleted = dbManager.DeleteItem(new Category { Id = 1 });
 
             if (categoryDeleted)
             {
-                var newNumOfRecords = _dbManager.BrowseItems(typeof(Category)).Length;
+                var newNumOfRecords = dbManager.BrowseItems(typeof(Category)).Length;
 
                 Assert.AreEqual(previousNumOfRecords - 1, newNumOfRecords);
             }
@@ -56,13 +71,13 @@ namespace RecipesManagerTests
         [TestMethod]
         public void DeleteIngredient()
         {
-            var previousNumOfRecords = _dbManager.BrowseItems(typeof(Ingredient)).Length;
+            var previousNumOfRecords = dbManager.BrowseItems(typeof(Ingredient)).Length;
 
-            var ingredientDeleted = _dbManager.DeleteItem(new Ingredient { Id = 1 });
+            var ingredientDeleted = dbManager.DeleteItem(new Ingredient { Id = 1 });
 
             if (ingredientDeleted)
             {
-                var newNumOfRecords = _dbManager.BrowseItems(typeof(Ingredient)).Length;
+                var newNumOfRecords = dbManager.BrowseItems(typeof(Ingredient)).Length;
 
                 Assert.AreEqual(previousNumOfRecords - 1, newNumOfRecords);
             }
@@ -74,13 +89,13 @@ namespace RecipesManagerTests
         [TestMethod]
         public void DeleteRecipe()
         {
-            var previousNumOfRecords = _dbManager.BrowseItems(typeof(Recipe)).Length;
+            var previousNumOfRecords = dbManager.BrowseItems(typeof(Recipe)).Length;
 
-            var recipeDeleted = _dbManager.DeleteItem(new Recipe { Id = 1 });
+            var recipeDeleted = dbManager.DeleteItem(new Recipe { Id = 1 });
 
             if (recipeDeleted)
             {
-                var newNumOfRecords = _dbManager.BrowseItems(typeof(Recipe)).Length;
+                var newNumOfRecords = dbManager.BrowseItems(typeof(Recipe)).Length;
 
                 Assert.AreEqual(previousNumOfRecords - 1, newNumOfRecords);
             }
@@ -92,13 +107,13 @@ namespace RecipesManagerTests
         [TestMethod]
         public void DeleteIngredientQuantity()
         {
-            var previousNumOfRecords = _dbManager.BrowseItems(typeof(IngredientQuantity)).Length;
+            var previousNumOfRecords = dbManager.BrowseItems(typeof(IngredientQuantity)).Length;
 
-            var iqDeleted = _dbManager.DeleteItem(new IngredientQuantity { Id = 1 });
+            var iqDeleted = dbManager.DeleteItem(new IngredientQuantity { Id = 1 });
 
             if (iqDeleted)
             {
-                var newNumOfRecords = _dbManager.BrowseItems(typeof(IngredientQuantity)).Length;
+                var newNumOfRecords = dbManager.BrowseItems(typeof(IngredientQuantity)).Length;
 
                 Assert.AreEqual(previousNumOfRecords - 1, newNumOfRecords);
             }
