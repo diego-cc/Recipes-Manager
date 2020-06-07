@@ -1,4 +1,7 @@
-﻿using RecipesManager.ViewModels.Services;
+﻿using RecipesData.Setup;
+using RecipesManager.ViewModels;
+using RecipesManager.ViewModels.Services;
+using System;
 using System.Windows.Controls;
 
 namespace RecipesManager.Views

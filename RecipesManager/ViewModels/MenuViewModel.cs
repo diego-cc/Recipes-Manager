@@ -22,13 +22,14 @@ namespace RecipesManager.ViewModels
 
             CategoriesCommand = new RelayCommand(this._mainViewModel.OpenCategories);
             IngredientsCommand = new RelayCommand(this._mainViewModel.OpenIngredients);
-            RecipesCommand = new RelayCommand(this._mainViewModel.OpenRecipes);
+            RecipesCommand = new RelayCommandAsync(this._mainViewModel.OpenRecipes);
             IngredientQuantitiesCommand = new RelayCommand(this._mainViewModel.OpenIngredientQuantities);
         }
 
         public ICommand CategoriesCommand { get; private set; }
         public ICommand IngredientsCommand { get; private set; }
-        public ICommand RecipesCommand { get; private set; }
+        // public ICommand RecipesCommand { get; private set; }
+        public IAsyncCommand RecipesCommand { get; private set; }
         public ICommand IngredientQuantitiesCommand { get; private set; }
     }
 }

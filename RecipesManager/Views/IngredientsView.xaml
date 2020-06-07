@@ -31,6 +31,9 @@
             ItemsSource="{Binding Items, Mode=TwoWay}"  
             SelectedItem="{Binding SelectedIngredient}"
             SelectionMode="Single"
+            HorizontalContentAlignment="Center"
+            HorizontalAlignment="Center"
+            Width="1280"
             >
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
@@ -43,15 +46,26 @@
             </ListView.ItemContainerStyle>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn 
-                        Header="ID" 
-                        DisplayMemberBinding="{Binding Id}"  
-                        Width="100"/>
-                    <GridViewColumn 
-                        Header="Ingredient name" 
-                        DisplayMemberBinding="{Binding Name}"  
-                        Width="150" 
-                        />
+                    <GridViewColumn Header="ID" Width="100">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock 
+                                    Text="{Binding Id}"
+                                    HorizontalAlignment="Center"
+                                    />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Ingredient name" Width="100">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock 
+                                    Text="{Binding Name}"
+                                    HorizontalAlignment="Center"
+                                    />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>

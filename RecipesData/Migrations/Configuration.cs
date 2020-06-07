@@ -228,7 +228,7 @@
             var recipe4 = new Recipe { Id = 4, CategoryId = 3, Name = "cheesy pumpkin scones", Serves = 6, PreparationTime = 50, KcalPerServe = null };
             var recipe5 = new Recipe { Id = 5, CategoryId = 4, Name = "garden salad with vinaigrette", Serves = 6, PreparationTime = 10, KcalPerServe = null };
             var recipe6 = new Recipe { Id = 6, CategoryId = 5, Name = "thai sweet potato soup", Serves = 4, PreparationTime = 45, KcalPerServe = null };
-            var recipe7 = new Recipe { Id = 7, CategoryId = 6, Name = "vesper martini", Serves = 1, PreparationTime = 3, KcalPerServe = 483 };
+            var recipe7 = new Recipe { Id = 7, CategoryId = 6, Name = "vesper martini", Serves = 1, PreparationTime = 3, KcalPerServe = null };
 
             context.Recipes.AddOrUpdate(new Recipe[]
             {

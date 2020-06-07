@@ -14,6 +14,7 @@ using Microsoft.Win32;
 using System.Windows;
 using System.Collections.ObjectModel;
 using System;
+using System.Threading.Tasks;
 
 namespace RecipesManager.ViewModels
 {
@@ -25,7 +26,8 @@ namespace RecipesManager.ViewModels
         public ICommand MenuCommand { get; set; }
         public ICommand CategoriesCommand { get; set; }
         public ICommand IngredientsCommand { get; set; }
-        public ICommand RecipesCommand { get; set; }
+        // public ICommand RecipesCommand { get; set; }
+        public IAsyncCommand RecipesCommand { get; set; }
         public ICommand IngredientQuantitiesCommand { get; set; }
         public ICommand ImportCommand { get; set; }
         public ICommand ExportCommand { get; set; }
@@ -33,7 +35,8 @@ namespace RecipesManager.ViewModels
         public IViewModel SelectedViewModel
         {
             get => _selectedViewModel;
-            set {
+            set
+            {
                 this._selectedViewModel = value;
                 OnPropertyChanged();
             }
@@ -46,7 +49,8 @@ namespace RecipesManager.ViewModels
             MenuCommand = new RelayCommand(OpenMenu);
             CategoriesCommand = new RelayCommand(OpenCategories);
             IngredientsCommand = new RelayCommand(OpenIngredients);
-            RecipesCommand = new RelayCommand(OpenRecipes);
+            // RecipesCommand = new RelayCommand(OpenRecipes);
+            RecipesCommand = new RelayCommandAsync(OpenRecipes);
             IngredientQuantitiesCommand = new RelayCommand(OpenIngredientQuantities);
             ImportCommand = new RelayCommand(Import);
             ExportCommand = new RelayCommand(Export);
@@ -74,9 +78,10 @@ namespace RecipesManager.ViewModels
             SelectedViewModel = new IngredientsViewModel(this._dbManager);
         }
 
-        public void OpenRecipes(object obj)
+        public async Task OpenRecipes()
         {
-            SelectedViewModel = new RecipesViewModel(this._dbManager);
+            var recipesVM = await RecipesViewModel.GetInstanceAsync(this._dbManager);
+            SelectedViewModel = recipesVM;
         }
 
         public void OpenIngredientQuantities(object obj)
@@ -184,7 +189,7 @@ namespace RecipesManager.ViewModels
             if (dialog.ShowDialog() == true)
             {
                 Serialiser s = new Serialiser(dialog.FileName, recipes, ingredients, categories, iq);
-                
+
                 if (s.Serialise())
                 {
                     MessageBox.Show($"Successfully saved data to {dialog.FileName}", "Saved data", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
@@ -296,10 +301,10 @@ namespace RecipesManager.ViewModels
 
                     MessageBox.Show($"Data successfully imported from {dialog.FileName}", "Data imported", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                    switch(SelectedViewModel)
+                    switch (SelectedViewModel)
                     {
                         case IngredientsViewModel ingredientsViewModel:
-                            ingredientsViewModel.Items = 
+                            ingredientsViewModel.Items =
                                 new ObservableCollection<Models.Ingredient>(ingredientsData);
                             break;
 

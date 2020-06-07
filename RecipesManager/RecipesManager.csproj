@@ -91,9 +91,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\IAsyncCommand.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Commands\RelayCommandAsync.cs" />
     <Compile Include="Helpers\Serialisation\Deserialiser.cs" />
     <Compile Include="Helpers\Serialisation\Serialiser.cs" />
+    <Compile Include="Helpers\Utilities\IErrorHandler.cs" />
+    <Compile Include="Helpers\Utilities\TaskUtilities.cs" />
     <Compile Include="Helpers\Validation\CategoryNameRule.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Ingredient.cs" />

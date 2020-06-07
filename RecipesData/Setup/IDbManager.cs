@@ -1,5 +1,6 @@
 ﻿using RecipesData.Context;
 using System;
+using System.Threading.Tasks;
 
 namespace RecipesData.Setup
 {
@@ -53,5 +54,12 @@ namespace RecipesData.Setup
         /// <param name="entityType"></param>
         /// <returns>Array of entities found (has length 0 if none was found)</returns>
         object[] BrowseItems(Type entityType);
+
+        /// <summary>
+        /// Async version of <see cref="BrowseItems(Type)"/>
+        /// </summary>
+        /// <param name="entityType"></param>
+        /// <returns></returns>
+        Task<object[]> BrowseItemsAsync(Type entityType);
     }
 }

@@ -9,7 +9,9 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
 namespace RecipesManager.ViewModels
@@ -217,22 +219,24 @@ namespace RecipesManager.ViewModels
 
         #endregion
 
-        #region Constructor
-        public RecipesViewModel(IDbManager dbManager)
+        public IDbManager DbManager
         {
-            this.dbManager = dbManager;
+            get => this.dbManager;
+        }
 
-            var allRecipes = this.dbManager.BrowseItems(typeof(RecipesData.Models.Recipe));
-            var allCategories = this.dbManager.BrowseItems(typeof(RecipesData.Models.Category));
-            var allIngredientQuantities = this.dbManager.BrowseItems(typeof(RecipesData.Models.IngredientQuantity));
+        public async static Task<RecipesViewModel> GetInstanceAsync(IDbManager dbManager)
+        {
+            var allRecipes = await dbManager.BrowseItemsAsync(typeof(RecipesData.Models.Recipe));
+            var allCategories = await dbManager.BrowseItemsAsync(typeof(RecipesData.Models.Category));
+            var allIngredientQuantities = await dbManager.BrowseItemsAsync(typeof(RecipesData.Models.IngredientQuantity));
 
-            Items = new ObservableCollection<Recipe>
+            var recipes = new ObservableCollection<Recipe>
             (
                 allRecipes.Select(obj =>
                 {
                     var recipeEntity = (RecipesData.Models.Recipe)obj;
-                    return new Recipe 
-                    { 
+                    return new Recipe
+                    {
                         Id = recipeEntity.Id,
                         Name = recipeEntity.Name,
                         CategoryId = recipeEntity.CategoryId,
@@ -250,21 +254,21 @@ namespace RecipesManager.ViewModels
                 })
             );
 
-            Categories = new ObservableCollection<Category>
-            (
-                allCategories.Select(obj =>
-                {
-                    var categoryEntity = (RecipesData.Models.Category)obj;
+            var categories = new ObservableCollection<Category>
+           (
+               allCategories.Select(obj =>
+               {
+                   var categoryEntity = (RecipesData.Models.Category)obj;
 
-                    return new Category
-                    {
-                        Id = categoryEntity.Id,
-                        Name = categoryEntity.Name
-                    };
-                })
-            );
+                   return new Category
+                   {
+                       Id = categoryEntity.Id,
+                       Name = categoryEntity.Name
+                   };
+               })
+           );
 
-            IngredientQuantities = new ObservableCollection<IngredientQuantity>
+            var ingredientQuantities = new ObservableCollection<IngredientQuantity>
             (
                 allIngredientQuantities.Select(obj =>
                 {
@@ -289,6 +293,16 @@ namespace RecipesManager.ViewModels
                 })
             );
 
+            return new RecipesViewModel(dbManager, recipes, categories, ingredientQuantities);
+        }
+
+        private RecipesViewModel(IDbManager dbManager, ObservableCollection<Recipe> recipes, ObservableCollection<Category> categories, ObservableCollection<IngredientQuantity> ingredientQuantities)
+        {
+            this.dbManager = dbManager;
+            this.Items = recipes;
+            this.Categories = categories;
+            this.IngredientQuantities = ingredientQuantities;
+
             FilteredItems = new ObservableCollection<Recipe>(Items);
 
             SortOptions = new ObservableCollection<string> { "ID", "Name", "Category", "Favourite", "Preparation time", "Serves", "Kcal per serve" };
@@ -301,6 +315,91 @@ namespace RecipesManager.ViewModels
             ClearRecipeCommand = new RelayCommand(ClearRecipe);
             ClearSearchCommand = new RelayCommand(ClearSearch);
         }
+
+        #region Constructor
+        //public RecipesViewModel(IDbManager dbManager)
+        //{
+        //    this.dbManager = dbManager;
+
+        //    var allRecipes = this.dbManager.BrowseItems(typeof(RecipesData.Models.Recipe));
+        //    var allCategories = this.dbManager.BrowseItems(typeof(RecipesData.Models.Category));
+        //    var allIngredientQuantities = this.dbManager.BrowseItems(typeof(RecipesData.Models.IngredientQuantity));
+
+        //    Items = new ObservableCollection<Recipe>
+        //    (
+        //        allRecipes.Select(obj =>
+        //        {
+        //            var recipeEntity = (RecipesData.Models.Recipe)obj;
+        //            return new Recipe 
+        //            { 
+        //                Id = recipeEntity.Id,
+        //                Name = recipeEntity.Name,
+        //                CategoryId = recipeEntity.CategoryId,
+        //                PreparationTime = recipeEntity.PreparationTime,
+        //                Serves = recipeEntity.Serves,
+        //                KcalPerServe = recipeEntity.KcalPerServe,
+        //                Method = recipeEntity.Method,
+        //                Category = new Category
+        //                {
+        //                    Id = recipeEntity.CategoryId,
+        //                    Name = recipeEntity.Category.Name
+        //                },
+        //                Favourite = recipeEntity.Favourite
+        //            };
+        //        })
+        //    );
+
+        //    Categories = new ObservableCollection<Category>
+        //    (
+        //        allCategories.Select(obj =>
+        //        {
+        //            var categoryEntity = (RecipesData.Models.Category)obj;
+
+        //            return new Category
+        //            {
+        //                Id = categoryEntity.Id,
+        //                Name = categoryEntity.Name
+        //            };
+        //        })
+        //    );
+
+        //    IngredientQuantities = new ObservableCollection<IngredientQuantity>
+        //    (
+        //        allIngredientQuantities.Select(obj =>
+        //        {
+        //            var iqEntity = (RecipesData.Models.IngredientQuantity)obj;
+
+        //            return new IngredientQuantity
+        //            {
+        //                Id = iqEntity.Id,
+        //                Ingredient = new Ingredient
+        //                {
+        //                    Id = iqEntity.Ingredient.Id,
+        //                    Name = iqEntity.Ingredient.Name
+        //                },
+        //                Recipe = new Recipe
+        //                {
+        //                    Id = iqEntity.Recipe.Id,
+        //                    Name = iqEntity.Recipe.Name
+        //                },
+        //                Quantity = iqEntity.Quantity,
+        //                Amount = iqEntity.Amount
+        //            };
+        //        })
+        //    );
+
+        //    FilteredItems = new ObservableCollection<Recipe>(Items);
+
+        //    SortOptions = new ObservableCollection<string> { "ID", "Name", "Category", "Favourite", "Preparation time", "Serves", "Kcal per serve" };
+        //    SelectedSortOption = SortOptions[0];
+
+        //    AddRecipeCommand = new RelayCommand(AddRecipe);
+        //    DeleteRecipeCommand = new RelayCommand(DeleteRecipe);
+        //    UpdateRecipeCommand = new RelayCommand(UpdateRecipe);
+        //    RestoreRecipeCommand = new RelayCommand(RestoreRecipe);
+        //    ClearRecipeCommand = new RelayCommand(ClearRecipe);
+        //    ClearSearchCommand = new RelayCommand(ClearSearch);
+        //}
         #endregion
 
         #region Command Actions

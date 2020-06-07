@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Data.Entity;
+using System.Threading.Tasks;
 
 namespace RecipesData.Setup
 {
@@ -402,6 +403,63 @@ namespace RecipesData.Setup
                 {
                     Console.WriteLine("Could not seed data");
                     Console.WriteLine(e.Message);
+                }
+            }
+        }
+
+        public async Task<object[]> BrowseItemsAsync(Type entityType)
+        {
+            using (_recipesContext = new RecipesContext())
+            {
+                try
+                {
+                    switch (entityType.Name)
+                    {
+                        case "Category":
+                            var categories = await _recipesContext.Categories.ToArrayAsync();
+                            return categories;
+
+                        case "Ingredient":
+                            var ingredients = await _recipesContext.Ingredients.ToArrayAsync();
+                            return ingredients;
+
+                        case "Recipe":
+                            var recipes = await _recipesContext.Recipes.Include(r => r.Category).ToArrayAsync();
+                            return recipes;
+
+                        case "IngredientQuantity":
+                            var iq = await _recipesContext
+                                        .IngredientQuantities
+                                        .Include(m => m.Ingredient)
+                                        .Include(m => m.Recipe)
+                                        .ToArrayAsync();
+                            return iq;
+
+                        default:
+                            Console.WriteLine("Could not browse items: invalid object type");
+                            return new object[] { };
+                    }
+                }
+                catch (DbUpdateConcurrencyException ex)
+                {
+                    Console.WriteLine("Could not browse items: concurrency issues");
+                    Console.WriteLine(ex.Message);
+
+                    return new object[] { };
+                }
+                catch (SqlException ex)
+                {
+                    Console.WriteLine("Could not browse items: SQL errors");
+                    Console.WriteLine(ex.Message);
+
+                    return new object[] { };
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Could not browse items");
+                    Console.WriteLine(ex.Message);
+
+                    return new object[] { };
                 }
             }
         }

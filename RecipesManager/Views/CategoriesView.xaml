@@ -31,6 +31,9 @@
             Grid.Row="7" 
             ItemsSource="{Binding Items, Mode=TwoWay}"  
             SelectedItem="{Binding SelectedCategory}"
+            HorizontalContentAlignment="Center"
+            HorizontalAlignment="Center"
+            Width="1280"
             >
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
@@ -42,16 +45,27 @@
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.View>
-                <GridView x:Name="grdTest">
-                    <GridViewColumn 
-                        Header="ID" 
-                        DisplayMemberBinding="{Binding Id}"  
-                        Width="100"/>
-                    <GridViewColumn 
-                        Header="Category name" 
-                        DisplayMemberBinding="{Binding Name}"  
-                        Width="150" 
-                        />
+                <GridView>
+                    <GridViewColumn Header="ID" Width="100">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock 
+                                    Text="{Binding Id}"
+                                    HorizontalAlignment="Center"
+                                    />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Category" Width="100">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock 
+                                    Text="{Binding Name}"
+                                    HorizontalAlignment="Center"
+                                    />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
