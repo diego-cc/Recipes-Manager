@@ -298,7 +298,7 @@ namespace RecipesData.Setup
                                 break;
 
                             default:
-                                Console.WriteLine("Could not add new item: invalid object type");
+                                Console.WriteLine("Could not delete item: invalid object type");
                                 return false;
                         }
 
@@ -353,7 +353,7 @@ namespace RecipesData.Setup
                                 break;
 
                             default:
-                                Console.WriteLine("Could not add new item: invalid object type");
+                                Console.WriteLine("Could not delete item: invalid object type");
                                 return false;
                         }
 

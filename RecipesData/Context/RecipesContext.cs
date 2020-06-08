@@ -24,8 +24,8 @@ namespace RecipesData.Context
 
         /// <summary>
         /// Set timestamps before saving entries
-        /// Note: currently not working for CreatedAt
-        /// Possible bug/quirk in EF6 that is not present in EF Core?
+        /// <para>Note: currently not working for CreatedAt</para>
+        /// <para>Possible bug/quirk in EF6 that is not present in EF Core?</para>
         /// </summary>
         /// <returns></returns>
         public override int SaveChanges()

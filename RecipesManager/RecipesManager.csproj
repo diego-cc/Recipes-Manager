@@ -122,6 +122,8 @@
     <Compile Include="ViewModels\Services\IViewMenuViewModel.cs" />
     <Compile Include="ViewModels\Services\IViewModel.cs" />
     <Compile Include="ViewModels\Services\IViewRecipesViewModel.cs" />
+    <Compile Include="ViewModels\Services\IViewTutorialViewModel.cs" />
+    <Compile Include="ViewModels\TutorialViewModel.cs" />
     <Compile Include="Views\AboutView.xaml.cs">
       <DependentUpon>AboutView.xaml</DependentUpon>
     </Compile>

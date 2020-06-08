@@ -38,6 +38,10 @@
         <DataTemplate DataType="{x:Type viewmodels:AboutViewModel}">
             <views:AboutView />
         </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewmodels:TutorialViewModel}">
+            <views:TutorialView />
+        </DataTemplate>
     </Window.Resources>
     
     <Grid Background="#70FFFFFF">

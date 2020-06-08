@@ -1,25 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using RecipesManager.ViewModels.Services;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace RecipesManager.Views
 {
     /// <summary>
     /// Interaction logic for TutorialView.xaml
     /// </summary>
-    public partial class TutorialView : UserControl
+    public partial class TutorialView : UserControl, IViewTutorialViewModel
     {
+        public TutorialView(IViewTutorialViewModel tutorialViewModel)
+        {
+            InitializeComponent();
+            DataContext = tutorialViewModel;
+        }
+
         public TutorialView()
         {
             InitializeComponent();

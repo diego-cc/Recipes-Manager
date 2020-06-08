@@ -37,6 +37,7 @@ namespace RecipesManager.ViewModels
         public ICommand ImportCommand { get; set; }
         public ICommand ExportCommand { get; set; }
         public ICommand AboutCommand { get; set; }
+        public ICommand TutorialCommand { get; set; }
 
         public IViewModel SelectedViewModel
         {
@@ -61,6 +62,7 @@ namespace RecipesManager.ViewModels
             ImportCommand = new RelayCommand(Import);
             ExportCommand = new RelayCommand(Export);
             AboutCommand = new RelayCommand(OpenAbout);
+            TutorialCommand = new RelayCommand(OpenTutorial);
 
             SelectedViewModel = new MenuViewModel(this.dbManager, this);
         }
@@ -116,9 +118,18 @@ namespace RecipesManager.ViewModels
             SelectedViewModel = new IngredientQuantitiesViewModel(this.dbManager);
         }
 
+        /// <summary>
+        /// Shows <see cref="AboutView"/>
+        /// </summary>
+        /// <param name="obj"></param>
         public void OpenAbout(object obj)
         {
             SelectedViewModel = new AboutViewModel();
+        }
+
+        public void OpenTutorial(object obj)
+        {
+            SelectedViewModel = new TutorialViewModel(this.dbManager, this);
         }
 
         /// <summary>

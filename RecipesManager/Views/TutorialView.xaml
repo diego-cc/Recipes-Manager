@@ -4,9 +4,172 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:RecipesManager.Views"
+             xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+             d:DesignHeight="720" d:DesignWidth="1280">
+    <Grid Background="{x:Static fw:AccentColors.ImmersiveSystemAccentDark1Brush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="1" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="1" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="1" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="5" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="1" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="1" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="1" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="1" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock
+            Grid.Row="1"
+            Text="Recipes Manager - Tutorial"
+            FontSize="24"
+            Foreground="Aquamarine"
+            FontFamily="Segoe UI Black"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            />
+
+        <TextBlock
+            Grid.Row="3"
+            Foreground="PapayaWhip"
+            FontSize="16"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            >
+            <Span>There are four main windows in the application: </Span>
+            <Span Foreground="Aqua">Ingredients</Span>, 
+            <Span Foreground="Aqua">Categories</Span>, 
+            <Span Foreground="Aqua">Recipes</Span> and
+            <Span Foreground="Aqua">Ingredient Quantities</Span>.
+        </TextBlock>
+        <TextBlock
+            Grid.Row="5"
+            Foreground="PapayaWhip"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            FontSize="16"
+            >
+            <Span>To navigate through them, click on</Span>
+            <Span FontWeight="Bold" Foreground="LightGreen">View</Span> in the top menu.
+        </TextBlock>
+
+        <TextBlock
+            Grid.Row="7"
+            Foreground="PapayaWhip"
+            FontSize="16"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+         >
+            <Span Foreground="Aqua">Ingredients</Span> and 
+            <Span Foreground="Aqua">Categories</Span>
+            only need a name to be added/updated in the database.
+        </TextBlock>
+
+        <TextBlock
+            Grid.Row="9"
+            Foreground="PapayaWhip"
+            FontSize="16"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            >
+            <Span>For</Span> <Span Foreground="Aqua">Recipes</Span>,
+            <Span>you will need to provide an existing</Span>
+            <Span Foreground="Aqua">Category</Span>.
+        </TextBlock>
+
+        <TextBlock
+            Grid.Row="11"
+            Foreground="PapayaWhip"
+            FontSize="16"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            >
+            <Span>For</Span> <Span Foreground="Aqua">Ingredient Quantities</Span>,
+            <Span>you will need to provide an existing</Span>
+            <Span Foreground="Aqua">Ingredient</Span> and the corresponding
+            <Span Foreground="Aqua">Recipe</Span>.
+        </TextBlock>
+
+        <TextBlock
+            Grid.Row="13"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            FontSize="16"
+            Foreground="PapayaWhip"
+            >
+            To modify or delete an existing 
+            <Span Foreground="Aqua">Ingredient</Span> or
+            <Span Foreground="Aqua">Category</Span>,
+            <Span>simply select an item in the list, change its name in the text box</Span>
+            <Span>and click</Span>
+            <Span FontWeight="Bold" Foreground="LightGreen">Update</Span> or
+            <Span FontWeight="Bold" Foreground="LightGreen">Delete</Span>.
+        </TextBlock>
+
+        <TextBlock
+            Grid.Row="15"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Foreground="PapayaWhip"
+            FontSize="16"
+            >
+            <Span>The same process applies to</Span>
+            <Span Foreground="Aqua">Recipes</Span> and
+            <Span Foreground="Aqua">Ingredient Quantites</Span>,
+            <Span>by selecting an item and switching to the respective</Span>
+            <Span Foreground="LightGreen" FontWeight="Bold">Modify</Span> tab
+            <Span>In the top left corner</Span>.
+        </TextBlock>
+
+        <TextBlock
+            Grid.Row="17"
+            FontSize="16"
+            Foreground="PapayaWhip"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            >
+            <Span>The</Span>
+            <Span Foreground="LightGreen" FontWeight="Bold">Tools</Span> menu
+            <Span>allows you to save your items externally to a binary file,</Span>
+            <Span>which can then be imported back into the application.</Span>
+        </TextBlock>
+
+        <TextBlock
+            Grid.Row="19"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Foreground="PapayaWhip"
+            FontSize="16"
+            >
+            <Span Foreground="LightCoral" FontWeight="Bold">NOTE:</Span>
+            <Span FontWeight="Bold">Doing so will overwrite your existing records, so be careful!</Span>
+        </TextBlock>
+
+        <Button
+            Width="150"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Stretch"
+            Grid.Row="21"
+            Content="Back to menu"
+            FontSize="16"
+            Background="BlueViolet"
+            Style="{StaticResource ButtonAccentRevealStyle}"
+            Command="{Binding BackToMenuCommand}"
+            />
     </Grid>
 </UserControl>
