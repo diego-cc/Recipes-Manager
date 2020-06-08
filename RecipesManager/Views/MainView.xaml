@@ -34,6 +34,10 @@
         <DataTemplate DataType="{x:Type viewmodels:IngredientQuantitiesViewModel}">
             <views:IngredientQuantitiesView />
         </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewmodels:AboutViewModel}">
+            <views:AboutView />
+        </DataTemplate>
     </Window.Resources>
     
     <Grid Background="#70FFFFFF">
@@ -63,7 +67,8 @@
                     <MenuItem Header="Export JSON data (not yet implemented)" />
                 </MenuItem>
                 <MenuItem Header="_Help">
-                    <MenuItem Header="_About" />
+                    <MenuItem Header="_About" Command="{Binding AboutCommand}" />
+                    <MenuItem Header="_Tutorial" Command="{Binding TutorialCommand}" />
                 </MenuItem>
             </Menu>
         </DockPanel>

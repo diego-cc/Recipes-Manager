@@ -36,6 +36,7 @@ namespace RecipesManager.ViewModels
         public ICommand IngredientQuantitiesCommand { get; set; }
         public ICommand ImportCommand { get; set; }
         public ICommand ExportCommand { get; set; }
+        public ICommand AboutCommand { get; set; }
 
         public IViewModel SelectedViewModel
         {
@@ -59,6 +60,7 @@ namespace RecipesManager.ViewModels
             IngredientQuantitiesCommand = new RelayCommand(OpenIngredientQuantities);
             ImportCommand = new RelayCommand(Import);
             ExportCommand = new RelayCommand(Export);
+            AboutCommand = new RelayCommand(OpenAbout);
 
             SelectedViewModel = new MenuViewModel(this.dbManager, this);
         }
@@ -112,6 +114,11 @@ namespace RecipesManager.ViewModels
         public void OpenIngredientQuantities(object obj)
         {
             SelectedViewModel = new IngredientQuantitiesViewModel(this.dbManager);
+        }
+
+        public void OpenAbout(object obj)
+        {
+            SelectedViewModel = new AboutViewModel();
         }
 
         /// <summary>

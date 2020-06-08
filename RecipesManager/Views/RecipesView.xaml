@@ -293,7 +293,7 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn Header="Amount" Width="100">
+                                <GridViewColumn Header="Amount (g)" Width="100">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock 
@@ -349,6 +349,7 @@
                         Grid.Column="3"
                         Grid.Row="4"
                         Orientation="Vertical"
+                        Margin="0, 20, 0, 0"
                         >
                         <TextBlock
                             FontSize="16"
